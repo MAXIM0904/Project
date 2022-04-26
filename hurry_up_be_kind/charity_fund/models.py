@@ -21,7 +21,7 @@ class UserData(AbstractUser):
         ordering = ["status"]
 
     def __str__(self):
-        return str(self.phone)
+        return str(self.username)
 
 
 class Menu(models.Model):

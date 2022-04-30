@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/4.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.0/ref/settings/
 """
-
+from datetime import timedelta
 from pathlib import Path
 import os
 
@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DJANGO_DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [os.environ.get("DJANGO_ALLOWED_HOSTS")]
 
 
 # Application definition
@@ -38,12 +38,19 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'charity_fund',
+    'corsheaders',
+    'rest_framework',
+    'rest_framework_simplejwt',
+    'django_filters',
+    'users',
+    'confectionary',
+    'business',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -71,6 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'hurry_up_be_kind.wsgi.application'
 
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -81,20 +89,65 @@ WSGI_APPLICATION = 'hurry_up_be_kind.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
-AUTH_USER_MODEL = 'charity_fund.UserData'
+
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'bd_postgre1',
-        'USER': 'Admin1',
-        'PASSWORD': os.environ.get('BD_SECRET_KEY'),
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': os.environ.get('HOST_ENGINE'),
+        'NAME': os.environ.get('HOST_NAME'),
+        'USER': os.environ.get('HOST_USER'),
+        'PASSWORD': os.environ.get('HOST_SECRET_KEY'),
+        'HOST': os.environ.get('HOST_HOST'),
+        'PORT': os.environ.get('HOST_PORT'),
     }
 }
 
+AUTH_USER_MODEL = 'users.UserData'
 
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.DjangoModelPermissions'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        # 'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+}
+
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=5),
+    'ROTATE_REFRESH_TOKENS': os.environ.get("JWT_ROTATE_REFRESH_TOKENS"),
+    'BLACKLIST_AFTER_ROTATION': os.environ.get("JWT_BLACKLIST_AFTER_ROTATION"),
+    'UPDATE_LAST_LOGIN': os.environ.get("JWT_UPDATE_LAST_LOGIN"),
+
+    'ALGORITHM': os.environ.get("JWT_ALGORITHM"),
+    'SIGNING_KEY': os.environ.get("DJANGO_SECRET_KEY"),
+    'VERIFYING_KEY': os.environ.get("JWT_VERIFYING_KEY"),
+    'AUDIENCE': os.environ.get("JWT_AUDIENCE"),
+    'ISSUER': os.environ.get("JWT_ISSUER"),
+    'JWK_URL': os.environ.get("JWT_JWK_URL"),
+    'LEEWAY': 0,
+
+    'AUTH_HEADER_TYPES': (os.environ.get("JWT_AUTH_HEADER_TYPES"),),
+    'AUTH_HEADER_NAME': os.environ.get("JWT_AUTH_HEADER_NAME"),
+    'USER_ID_FIELD': os.environ.get("JWT_USER_ID_FIELD"),
+    'USER_ID_CLAIM': os.environ.get("JWT_USER_ID_CLAIM"),
+    'USER_AUTHENTICATION_RULE': os.environ.get("JWT_USER_AUTHENTICATION_RULE"),
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken', ),
+    'TOKEN_TYPE_CLAIM': os.environ.get("JWT_TOKEN_TYPE_CLAIM"),
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+
+    'JTI_CLAIM': os.environ.get("JWT_JTI_CLAIM"),
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': os.environ.get("JWT_SLIDING_TOKEN_REFRESH_EXP_CLAIM"),
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+}
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -119,7 +172,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Europe/Moscow'
 
 USE_I18N = True
 
@@ -131,6 +184,8 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+MEDIA_URL = '/images/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'images')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

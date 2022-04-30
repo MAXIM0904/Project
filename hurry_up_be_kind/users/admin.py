@@ -7,4 +7,3 @@ class UserDataAdmin(admin.ModelAdmin):
     pass
 
 admin.site.register(UserData, UserDataAdmin)
-

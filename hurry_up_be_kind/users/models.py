@@ -38,5 +38,9 @@ class AvatarUser(models.Model):
     Модель добавления аватара пользователя
     avatar_user_img принимает Images
     """
-    model_file = models.OneToOneField('UserData', on_delete=models.CASCADE)
+    model_file = models.ForeignKey('UserData', on_delete=models.CASCADE, related_name='model_file')
     avatar_user_img = models.ImageField(upload_to="avatar_philantropist/", verbose_name="Аватар профиля", blank=True)
+
+    def __str__(self):
+        return str(self.avatar_user_img)
+

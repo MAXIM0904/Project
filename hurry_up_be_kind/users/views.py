@@ -5,6 +5,7 @@ from .models import UserData
 from .serializers import UserRegistrationSerializer, UserUpdateSerializer
 from . import process
 
+
 class CreateUser(APIView):
     """ Класс регистрации пользователя """
     permission_classes = (AllowAny,)
@@ -28,6 +29,7 @@ class InfUser(APIView):
     def get(self, request):
         context = process._inf_user(request)
         return JsonResponse(context)
+
 
 class UpdateUser(APIView):
     '''Класс изменения данных пользователя'''

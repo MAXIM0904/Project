@@ -12,6 +12,7 @@ django-cors-headers = "*"
 django-filter = "*"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
+drf-yasg = {extras = ["validation"], version = "*"}
 
 [dev-packages]
 

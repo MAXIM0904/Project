@@ -5,11 +5,14 @@ from .models import UserData
 class UserRegistrationSerializer(serializers.ModelSerializer):
     ''' Сериализатор регистрации нового пользователя '''
 
-    password = serializers.CharField(max_length=128, min_length=8, write_only=True)
 
     class Meta:
         model = UserData
-        fields = ('first_name', 'last_name', 'phone', 'password', 'status')
+        fields = ('username', 'first_name', 'last_name', 'phone', 'password', 'status')
+
+    def post_username(self, obj):
+        username = obj.phone
+        return username
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):

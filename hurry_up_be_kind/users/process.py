@@ -1,3 +1,4 @@
+import os.path
 from .models import UserData, AvatarUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from .forms import ImgForm
@@ -30,10 +31,10 @@ def _get_tokens_for_user(user):
     }
 
 
-def _image_get(id_user):
+def _image_get(request):
     """ Функция возвращает список адресов картинок пользователя """
     list_images = []
-    image_user = AvatarUser.objects.filter(model_file_id=id_user)
+    image_user = AvatarUser.objects.filter(model_file_id=request.user.id)
     for i_image in image_user:
         list_images.append(f'images/{i_image}')
     return list_images
@@ -41,23 +42,22 @@ def _image_get(id_user):
 
 def _inf_user(request):
     """ Функция возвращает информацию о пользователе """
-    image_user = _image_get(id_user=request.user.id)
+    image_user = _image_get(request=request)
     status = request.user.status
-    if status in ['philantropist', 'confectioner', 'ward']:
-        context = {'last_name': request.user.last_name,
-                   'first_name': request.user.first_name,
-                   'phone': request.user.phone,
-                   'about_me': request.user.about_me,
-                   'link_user_img': image_user,
-                   'status': status,
-                   }
 
-        if status == 'philantropist':
-            context['size_donations'] = request.user.size_donations
+    context = {'last_name': request.user.last_name,
+               'first_name': request.user.first_name,
+               'phone': request.user.phone,
+               'about_me': request.user.about_me,
+               'link_user_img': image_user,
+               'status': status,
+               }
 
-        return context
-    else:
-        raise ValueError('The status does not exist')
+    if status == 'philantropist':
+        context['size_donations'] = request.user.size_donations
+
+    return context
+
 
 
 def _image_save(request):
@@ -90,10 +90,18 @@ def _save_data_user(request, user_form):
 
     return True
 
+def _delete_img(url_img):
+    """ Функция удаления картинки """
+    for i in url_img:
+        if os.path.isfile(i):
+            os.remove(i)
+    return True
+
 
 def _delete_user(request):
     """ Функция удаления пользователя из базы данных """
-
     user_profile = UserData.objects.get(id=request.user.id)
+    user_file = _image_get(request)
+    _delete_img(user_file)
     user_profile.delete()
     return True

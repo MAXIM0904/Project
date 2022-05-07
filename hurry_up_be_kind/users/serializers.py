@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from rest_framework import serializers
 from .models import UserData
 
@@ -5,14 +6,9 @@ from .models import UserData
 class UserRegistrationSerializer(serializers.ModelSerializer):
     ''' Сериализатор регистрации нового пользователя '''
 
-
     class Meta:
         model = UserData
-        fields = ('username', 'first_name', 'last_name', 'phone', 'password', 'status')
-
-    def post_username(self, obj):
-        username = obj.phone
-        return username
+        fields = ('first_name', 'last_name', 'phone', 'status', 'password')
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):

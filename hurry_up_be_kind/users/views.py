@@ -1,32 +1,24 @@
+from requests import Response
+
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.http import JsonResponse
-from .models import UserData
 from .serializers import UserRegistrationSerializer, UserUpdateSerializer
 from . import process
-from rest_framework.mixins import DestroyModelMixin
-from rest_framework.viewsets import GenericViewSet
-from rest_framework import serializers
 
 class RegistrationUser(APIView):
     """ Класс регистрации пользователя """
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
-        print('9')
-        print(request.data)
-
         serializer = UserRegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        try:
+            process._create_user(serializer_form=serializer)
+        except Exception as error:
+            return JsonResponse({'error': str(error)})
 
-        # try:
-        #     user = process._create_user(serializer_form=serializer)
-        # except Exception as error:
-        #     return JsonResponse({'error': str(error)})
-
-        # serializer.save()
-        # token = process._get_tokens_for_user(user)
-        return JsonResponse({"1": True})
+        return JsonResponse({'registration': True})
 
 
 class InfUser(APIView):

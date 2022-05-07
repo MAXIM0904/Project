@@ -1,3 +1,4 @@
+from django.core.validators import RegexValidator
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
@@ -9,17 +10,24 @@ class UserData(AbstractUser):
     2. ward - подопечный,
     3. confectioner - руководитель кондитерской (сети кондитерских).
     """
-
     STATUS_CHOICES = [
         ("philantropist", "philantropist"),
         ("ward", "ward"),
         ("confectioner", "confectioner"),
     ]
-    phone = models.CharField(max_length=20, verbose_name="Номер телефона")
+    phone_regex = RegexValidator(
+        regex=r'^\+?1?\d{9,15}$',
+        message="Phone number must be entered in the format: '+79101111111'. Up to 15 digits allowed."
+    )
+    phone = models.CharField(('phone number'), validators=[phone_regex], max_length=17, unique=True)
     status = models.CharField(max_length=14, choices=STATUS_CHOICES, verbose_name="Статус пользователя")
     size_donations = models.IntegerField(default=0, verbose_name="Размер пожертвований")
-
     address_ward = models.TextField(default="", verbose_name="Адрес места нахождения")
+    is_active = models.BooleanField(
+        ('active'), default=False,
+        help_text=('Designates whether this user should be treated as active. '
+                   'Unselect this instead of deleting accounts.')
+    )
 
     about_me = models.TextField(verbose_name="О себе", blank=True)
     registrarion_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации")
@@ -30,7 +38,7 @@ class UserData(AbstractUser):
         ordering = ["status"]
 
     def __str__(self):
-        return str(self.username)
+        return str(self.phone)
 
 
 class AvatarUser(models.Model):

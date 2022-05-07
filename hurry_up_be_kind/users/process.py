@@ -9,7 +9,6 @@ def _create_user(serializer_form):
     Функция сохранения данных пользователя в базу данных.
     Сохраняет номер телефона в username.
     """
-
     create_user = UserData.objects.create_user(
         username=serializer_form.validated_data['phone'],
         phone=serializer_form.validated_data['phone'],
@@ -34,7 +33,7 @@ def _get_tokens_for_user(user):
 def _image_get(request):
     """ Функция возвращает список адресов картинок пользователя """
     list_images = []
-    image_user = AvatarUser.objects.filter(model_file_id=request.user.id)
+    image_user = request.user.model_file.all()
     for i_image in image_user:
         list_images.append(f'images/{i_image}')
     return list_images
@@ -50,6 +49,7 @@ def _inf_user(request):
                'phone': request.user.phone,
                'about_me': request.user.about_me,
                'link_user_img': image_user,
+               'address_ward': request.user.address_ward,
                'status': status,
                }
 
@@ -57,7 +57,6 @@ def _inf_user(request):
         context['size_donations'] = request.user.size_donations
 
     return context
-
 
 
 def _image_save(request):
@@ -87,8 +86,8 @@ def _save_data_user(request, user_form):
         _image_save(request=request)
 
     user_form.save()
-
     return True
+
 
 def _delete_img(url_img):
     """ Функция удаления картинки """

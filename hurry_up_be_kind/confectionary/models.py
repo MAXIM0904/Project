@@ -8,19 +8,14 @@ class Confectionary(models.Model):
     title = models.CharField(max_length=100, verbose_name="Название кондитерской")
     description_confectionary = models.TextField(verbose_name="Описание")
     link_img_confectionary = models.URLField(max_length=200, verbose_name="Ссылка на фото кондитерской")
-
-    city = models.CharField(max_length=100, verbose_name="Город расположения")
-    city_area = models.CharField(max_length=100, verbose_name="Район города")
-    street = models.CharField(max_length=100, verbose_name="Улица")
-    house = models.CharField(max_length=20, verbose_name="Дом")
-    office = models.CharField(max_length=20, verbose_name="Офис", null=True, blank=True)
+    address_ward = models.TextField(default="", verbose_name="Адрес места нахождения")
 
     def __str__(self):
         return self.title
 
 
 class Menu(models.Model):
-    ''' Модель блюд, которых предлогает кондитерская '''
+    ''' Модель блюд, которых предлагает кондитерская '''
     name_confectionary = models.ForeignKey(
         "Confectionary", null=True, default="", on_delete=models.CASCADE, related_name="menu_confectionary"
     )

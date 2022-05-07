@@ -20,3 +20,10 @@ class UserUpdateSerializer(serializers.ModelSerializer):
         model = UserData
         fields = ('first_name', 'last_name', 'phone', 'address_ward', 'about_me', 'image')
 
+
+class AllUserSerializer(serializers.ModelSerializer):
+    ''' Сериализация данных профиля '''
+
+    class Meta:
+        model = UserData
+        fields = ('first_name', 'last_name', 'phone', 'address_ward', 'about_me', 'status', 'size_donations')

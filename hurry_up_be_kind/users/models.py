@@ -28,7 +28,6 @@ class UserData(AbstractUser):
         help_text=('Designates whether this user should be treated as active. '
                    'Unselect this instead of deleting accounts.')
     )
-
     about_me = models.TextField(verbose_name="О себе", blank=True)
     registrarion_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации")
     link_user_img = models.URLField(max_length=200, verbose_name="Ссылка на аватарку профиля", blank=True)

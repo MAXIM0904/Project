@@ -1,10 +1,12 @@
 from requests import Response
-
+from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.http import JsonResponse
-from .serializers import UserRegistrationSerializer, UserUpdateSerializer
+from .models import UserData
+from .serializers import UserRegistrationSerializer, UserUpdateSerializer, AllUserSerializer
 from . import process
+
 
 class RegistrationUser(APIView):
     """ Класс регистрации пользователя """
@@ -48,3 +50,12 @@ class DeleteUser(APIView):
     def get(self, request):
         process._delete_user(request)
         return JsonResponse({'status': True})
+
+
+class AllUsers(ListAPIView):
+    '''Предоставление всех пользователей в базе данных '''
+    permission_classes = (IsAdminUser,)
+
+
+    queryset = UserData.objects.all()
+    serializer_class = AllUserSerializer

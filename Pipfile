@@ -5,14 +5,13 @@ name = "pypi"
 
 [packages]
 django = "==4.0.4"
-psycopg = {extras = ["binary"], version = "*"}
-psycopg2 = "*"
 pillow = "*"
 django-cors-headers = "*"
 django-filter = "*"
 djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 drf-yasg = {extras = ["validation"], version = "*"}
+mysqlclient = "*"
 
 [dev-packages]
 

@@ -1,3 +1,4 @@
+from django.shortcuts import render
 from requests import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
@@ -6,6 +7,10 @@ from django.http import JsonResponse
 from .models import UserData
 from .serializers import UserRegistrationSerializer, UserUpdateSerializer, AllUserSerializer
 from . import process
+
+
+def home_page(request):
+    return render (request, 'templates/homepage.html', {})
 
 
 class RegistrationUser(APIView):

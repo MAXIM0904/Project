@@ -19,12 +19,12 @@ class UserData(AbstractUser):
         regex=r'^\+?1?\d{9,15}$',
         message="Phone number must be entered in the format: '+79101111111'. Up to 15 digits allowed."
     )
-    phone = models.CharField(('phone number'), validators=[phone_regex], max_length=17, unique=True)
+    phone = models.CharField(('phone number'), validators=[phone_regex], max_length=17)
     status = models.CharField(max_length=14, choices=STATUS_CHOICES, verbose_name="Статус пользователя")
     size_donations = models.IntegerField(default=0, verbose_name="Размер пожертвований")
     address_ward = models.TextField(default="", verbose_name="Адрес места нахождения")
     is_active = models.BooleanField(
-        ('active'), default=False,
+        ('active'), default=True,
         help_text=('Designates whether this user should be treated as active. '
                    'Unselect this instead of deleting accounts.')
     )
@@ -37,7 +37,7 @@ class UserData(AbstractUser):
         ordering = ["status"]
 
     def __str__(self):
-        return str(self.phone)
+        return str(self.username)
 
 
 class AvatarUser(models.Model):

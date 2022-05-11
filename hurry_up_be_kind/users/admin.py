@@ -2,13 +2,18 @@ from django.contrib import admin
 from .models import UserData, AvatarUser
 
 
-
-class UserDataAdmin(admin.ModelAdmin):
-    pass
-
 class AvatarUserAdmin(admin.ModelAdmin):
     pass
 
+
+class AdminAvatarUser(admin.TabularInline):
+    model = AvatarUser
+
+
+class UserDataAdmin(admin.ModelAdmin):
+    inlines = [
+        AdminAvatarUser,
+    ]
 
 
 admin.site.register(UserData, UserDataAdmin)

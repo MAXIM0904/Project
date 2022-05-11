@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import list_news
+from .views import RegisterConfectionary
 
 app_name = 'confectionary'
 
 urlpatterns = [
-    path('', list_news, name='list_news'),
+    path('register_confectionary/', RegisterConfectionary.as_view(), name='register_confectionary'),
 ]

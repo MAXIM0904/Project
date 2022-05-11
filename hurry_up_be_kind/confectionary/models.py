@@ -4,25 +4,27 @@ from users.models import UserData
 
 class Confectionary(models.Model):
     ''' Модель кондитерской '''
-    director = models.ForeignKey(UserData, on_delete=models.CASCADE)
-    title = models.CharField(max_length=100, verbose_name="Название кондитерской")
-    description_confectionary = models.TextField(verbose_name="Описание")
-    link_img_confectionary = models.URLField(max_length=200, verbose_name="Ссылка на фото кондитерской")
-    address_ward = models.TextField(default="", verbose_name="Адрес места нахождения")
+    director = models.ForeignKey(UserData, on_delete=models.CASCADE, blank=True, related_name="confectionary")
+    password = models.CharField(max_length=100, verbose_name="Пароль", blank=True)
+    confectionary_name = models.CharField(max_length=100, verbose_name="Название кондитерской", blank=True)
+    number_phone = models.CharField(max_length=100, verbose_name="Номер телефона кондитерской", null=True, blank=True)
+    description_confectionary = models.TextField(verbose_name="Описание", blank=True)
+    address_ward = models.TextField(verbose_name="Адрес кондитерской", blank=True)
+
 
     def __str__(self):
-        return self.title
+        return self.confectionary_name
 
 
 class Menu(models.Model):
     ''' Модель блюд, которых предлагает кондитерская '''
     name_confectionary = models.ForeignKey(
-        "Confectionary", null=True, default="", on_delete=models.CASCADE, related_name="menu_confectionary"
+        "Confectionary", blank=True, on_delete=models.CASCADE, related_name="menu_confectionary"
     )
     name_dish = models.CharField(max_length=200, verbose_name="Название блюда")
     price_dish = models.IntegerField(verbose_name="Цена блюда")
-    description_dish = models.CharField(max_length=500, verbose_name="Комментарий к блюду")
-    link_img_dish = models.URLField(max_length=200, verbose_name="Ссылка на фото блюда")
+    description_dish = models.CharField(max_length=500, verbose_name="Описание")
+
 
     class Meta:
         ordering = ["price_dish"]

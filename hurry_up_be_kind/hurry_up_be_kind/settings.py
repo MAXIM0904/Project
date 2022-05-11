@@ -92,16 +92,35 @@ CORS_ALLOW_ALL_ORIGINS = True
 # }
 
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.environ.get('HOST_ENGINE'),
+#         'NAME': os.environ.get('HOST_NAME'),
+#         'USER': os.environ.get('HOST_USER'),
+#         'PASSWORD': os.environ.get('HOST_SECRET_KEY'),
+#         'HOST': os.environ.get('HOST_HOST'),
+#         'PORT': os.environ.get('HOST_PORT'),
+#     }
+# }
+
+
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('HOST_ENGINE'),
-        'NAME': os.environ.get('HOST_NAME'),
-        'USER': os.environ.get('HOST_USER'),
-        'PASSWORD': os.environ.get('HOST_SECRET_KEY'),
-        'HOST': os.environ.get('HOST_HOST'),
-        'PORT': os.environ.get('HOST_PORT'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'intopython',
+        'USER': 'dbuser',
+        'PASSWORD': '12345',
+        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+        'PORT': '3306',
+        # 'default-character-set': 'utf8',
+        # 'OPTIONS': {
+        #     'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        # },
     }
 }
+
+
+
 
 AUTH_USER_MODEL = 'users.UserData'
 

@@ -7,7 +7,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserData
-        fields = ('first_name', 'last_name', 'phone', 'status', 'password')
+        fields = ('first_name', 'last_name', 'phone', 'status', 'password', 'random_number')
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):

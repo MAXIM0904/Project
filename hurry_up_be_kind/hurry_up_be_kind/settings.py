@@ -107,7 +107,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'intopython',
+        'NAME': 'intopython2',
         'USER': 'dbuser',
         'PASSWORD': '12345',
         'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
@@ -190,7 +190,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ru-RU'
 
 TIME_ZONE = 'Europe/Moscow'
 

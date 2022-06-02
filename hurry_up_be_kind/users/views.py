@@ -21,11 +21,12 @@ class RegistrationUser(APIView):
         serializer = UserRegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         try:
-            process._create_user(serializer_form=serializer)
+            create_user = process._create_user(serializer_form=serializer)
         except Exception as error:
             return JsonResponse({'error': str(error)})
 
-        return JsonResponse({'registration': True})
+        return JsonResponse({'registration': True,
+                             'id': create_user.id})
 
 
 class InfUser(APIView):
@@ -61,6 +62,13 @@ class AllUsers(ListAPIView):
     '''Предоставление всех пользователей в базе данных '''
     permission_classes = (IsAdminUser,)
 
-
     queryset = UserData.objects.all()
     serializer_class = AllUserSerializer
+
+
+class Verification_sms(APIView):
+    permission_classes = (AllowAny,)
+
+    def get(self, request):
+        print('1')
+        return JsonResponse({'status': True})

@@ -30,7 +30,7 @@ class UserData(AbstractUser):
     )
     about_me = models.TextField(verbose_name="О себе", blank=True)
     registrarion_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации")
-    link_user_img = models.URLField(max_length=200, verbose_name="Ссылка на аватарку профиля", blank=True)
+    random_number = models.IntegerField(verbose_name="Код верификации", default=0)
 
 
     class Meta:

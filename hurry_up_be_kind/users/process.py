@@ -2,6 +2,10 @@ import os.path
 from .models import UserData, AvatarUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from .forms import ImgForm
+from random import randint
+from base64 import b64encode
+import requests
+import json
 
 
 def _create_user(serializer_form):
@@ -9,6 +13,7 @@ def _create_user(serializer_form):
     Функция сохранения данных пользователя в базу данных.
     Сохраняет номер телефона в username.
     """
+    random = _random_int()
     create_user = UserData.objects.create_user(
         username=serializer_form.validated_data['phone'],
         phone=serializer_form.validated_data['phone'],
@@ -16,8 +21,53 @@ def _create_user(serializer_form):
         first_name=serializer_form.validated_data['first_name'],
         last_name=serializer_form.validated_data['last_name'],
         password=serializer_form.validated_data['password'],
+        random_number= int(random),
     )
+    _sending_sms(user=create_user)
     return create_user
+
+
+def _sending_sms(user):
+    ''' Функция отправки СМС пользователю '''
+    number = user.username
+    login = os.environ.get("login_sms")
+    password = os.environ.get("password_sms")
+    random_number = user.random_number
+
+    url = 'https://omnichannel.mts.ru/http-api/v1/messages'
+    bit_password = b64encode(bytes(f"{login}:{password}", "utf-8")).decode("ascii")
+
+    headers = {
+        "Authorization": f"Basic {bit_password}",
+        "Content-Type": "application/json"
+    }
+    payload = json.dumps({
+        "messages": [
+            {
+                "content": {
+                    "short_text": f"{random_number}"
+                },
+                "from": {
+                    "sms_address": "MTSM_Test"
+                },
+                "to": [
+                    {
+                        "msisdn": f"{number}"
+                    }
+                ]
+            }
+        ]
+    })
+
+    # response = requests.request("POST", url, headers=headers, data=payload)
+    # print(response.text)
+
+
+def _random_int():
+    '''Функция генерирует случайное четырехзначное число'''
+    random_number = randint(1000, 9999)
+    return random_number
+    # _sending_sms(user=user, random_number=random_number)
 
 
 def _get_tokens_for_user(user):

@@ -17,7 +17,7 @@ class UserData(AbstractUser):
     ]
     phone_regex = RegexValidator(
         regex=r'^\+?1?\d{9,15}$',
-        message="Phone number must be entered in the format: '+79101111111'. Up to 15 digits allowed."
+        message="Phone number must be entered in the format: '79101111111'. Up to 15 digits allowed."
     )
     phone = models.CharField(('phone number'), validators=[phone_regex], max_length=17)
     status = models.CharField(max_length=14, choices=STATUS_CHOICES, verbose_name="Статус пользователя")

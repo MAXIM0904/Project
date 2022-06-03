@@ -61,14 +61,23 @@ class DeleteUser(APIView):
 class AllUsers(ListAPIView):
     '''Предоставление всех пользователей в базе данных '''
     permission_classes = (IsAdminUser,)
-
     queryset = UserData.objects.all()
     serializer_class = AllUserSerializer
 
 
 class Verification_sms(APIView):
+    ''' Класс верификации пользователя по СМС '''
     permission_classes = (AllowAny,)
 
-    def get(self, request):
-        print('1')
-        return JsonResponse({'status': True})
+    def post(self, request):
+        verification_code = request.data['verification_code']
+        verification_code = int(verification_code)
+        user = UserData.objects.get(id=request.data['id'])
+        random_code = user.random_number
+        if verification_code == random_code and random_code != 0:
+            user.is_active = True
+            user.random_number = 0
+            user.save()
+            jwt_token = process._get_tokens_for_user(user=user)
+            return JsonResponse(jwt_token)
+        return JsonResponse({'error': 'The code is not correct'})

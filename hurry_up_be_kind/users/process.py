@@ -141,9 +141,9 @@ def _save_data_user(request, user_form):
 
 def _delete_img(url_img):
     """ Функция удаления картинки """
-    for i in url_img:
-        if os.path.isfile(i):
-            os.remove(i)
+    for i_img in url_img:
+        if os.path.isfile(i_img):
+            os.remove(i_img)
     return True
 
 

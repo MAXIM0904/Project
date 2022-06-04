@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'users',
     'confectionary',
     'business',
+    'information_pages',
+
 ]
 
 MIDDLEWARE = [

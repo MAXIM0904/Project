@@ -24,13 +24,14 @@ class UserData(AbstractUser):
     size_donations = models.IntegerField(default=0, verbose_name="Размер пожертвований")
     address_ward = models.TextField(default="", verbose_name="Адрес места нахождения")
     is_active = models.BooleanField(
-        ('active'), default=True,
+        ('active'), default=False,
         help_text=('Designates whether this user should be treated as active. '
                    'Unselect this instead of deleting accounts.')
     )
     about_me = models.TextField(verbose_name="О себе", blank=True)
     registrarion_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации")
     random_number = models.IntegerField(verbose_name="Код верификации", default=0)
+
 
 
     class Meta:

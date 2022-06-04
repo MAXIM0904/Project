@@ -21,7 +21,7 @@ def _create_user(serializer_form):
         first_name=serializer_form.validated_data['first_name'],
         last_name=serializer_form.validated_data['last_name'],
         password=serializer_form.validated_data['password'],
-        random_number= int(random),
+        random_number=int(random),
     )
     _sending_sms(user=create_user)
     return create_user

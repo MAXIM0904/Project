@@ -22,6 +22,7 @@ class RegistrationUser(APIView):
         serializer.is_valid(raise_exception=True)
         try:
             create_user = process._create_user(serializer_form=serializer)
+
         except Exception as error:
             return JsonResponse({'error': str(error)})
 
@@ -64,14 +65,26 @@ class AllUsers(ListAPIView):
     queryset = UserData.objects.all()
     serializer_class = AllUserSerializer
 
+class AllWard(ListAPIView):
+    '''Предоставление всех подопечных в базе данных '''
+    permission_classes = (IsAuthenticated,)
+    queryset = UserData.objects.filter(status="ward")
+    serializer_class = AllUserSerializer
+
+
+class AllPhilantropist(ListAPIView):
+    '''Предоставление всех филантропов в базе данных '''
+    permission_classes = (IsAdminUser,)
+    queryset = UserData.objects.filter(status="philantropist")
+    serializer_class = AllUserSerializer
+
 
 class Verification_sms(APIView):
     ''' Класс верификации пользователя по СМС '''
     permission_classes = (AllowAny,)
 
     def post(self, request):
-        verification_code = request.data['verification_code']
-        verification_code = int(verification_code)
+        verification_code = int(request.data['verification_code'])
         user = UserData.objects.get(id=request.data['id'])
         random_code = user.random_number
         if verification_code == random_code and random_code != 0:

@@ -9,5 +9,5 @@ class ConfectionarySerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Confectionary
-        fields = ('director', 'password', 'confectionary_name', 'number_phone',
-                  'description_confectionary', 'address_ward', 'img_confectionary')
+        fields = ('confectionary_name', 'number_phone', 'description_confectionary',
+                  'address_ward', 'img_confectionary')

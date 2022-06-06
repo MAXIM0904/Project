@@ -10,6 +10,8 @@ class RegisterConfectionary(APIView):
     permission_classes= [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
+        print('1')
+        print(request.user.status)
         if request.user.status == "confectioner":
             user_form = ConfectionarySerializer(request.user, request.data, partial=True)
             user_form.is_valid(raise_exception=True)

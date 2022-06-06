@@ -5,7 +5,6 @@ from users.models import UserData
 class Confectionary(models.Model):
     ''' Модель кондитерской '''
     director = models.ForeignKey(UserData, on_delete=models.CASCADE, blank=True, related_name="confectionary")
-    password = models.CharField(max_length=100, verbose_name="Пароль", blank=True)
     confectionary_name = models.CharField(max_length=100, verbose_name="Название кондитерской", blank=True)
     number_phone = models.CharField(max_length=100, verbose_name="Номер телефона кондитерской", null=True, blank=True)
     description_confectionary = models.TextField(verbose_name="Описание", blank=True)

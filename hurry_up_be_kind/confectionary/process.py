@@ -21,13 +21,10 @@ def _file_confectionary_save(instance, request):
 
 def _confectionary_save(request, confectionary_data):
     """Функция сохранения кондитерской с картинками"""
-    password = ''
     confectionary_name = ''
     number_phone = ''
     address_ward = ''
     description_confectionary = ''
-    if confectionary_data.get('password'):
-        password = make_password(confectionary_data['password'])
     if confectionary_data.get('confectionary_name'):
         confectionary_name = confectionary_data['confectionary_name']
     if confectionary_data.get('number_phone'):
@@ -39,7 +36,6 @@ def _confectionary_save(request, confectionary_data):
 
     instance = Confectionary.objects.create(
         director=request.user,
-        password=password,
         confectionary_name=confectionary_name,
         number_phone=number_phone,
         address_ward=address_ward,

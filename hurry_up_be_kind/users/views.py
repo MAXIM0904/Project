@@ -24,10 +24,12 @@ class RegistrationUser(APIView):
             create_user = process._create_user(serializer_form=serializer)
 
         except Exception as error:
-            return JsonResponse({'error': str(error)})
+            return JsonResponse({'registration': 'error',
+                                 'id': str(error)
+                                 })
 
-        return JsonResponse({'registration': True,
-                             'id': create_user.id})
+        return JsonResponse({'registration': 'True',
+                             'id': str(create_user.id)})
 
 
 class InfUser(APIView):
@@ -65,6 +67,7 @@ class AllUsers(ListAPIView):
     queryset = UserData.objects.all()
     serializer_class = AllUserSerializer
 
+
 class AllWard(ListAPIView):
     '''Предоставление всех подопечных в базе данных '''
     permission_classes = (IsAuthenticated,)
@@ -86,11 +89,5 @@ class Verification_sms(APIView):
     def post(self, request):
         verification_code = int(request.data['verification_code'])
         user = UserData.objects.get(id=request.data['id'])
-        random_code = user.random_number
-        if verification_code == random_code and random_code != 0:
-            user.is_active = True
-            user.random_number = 0
-            user.save()
-            jwt_token = process._get_tokens_for_user(user=user)
-            return JsonResponse(jwt_token)
-        return JsonResponse({'error': 'The code is not correct'})
+        answer = process._verification_user(user=user, verification_code=verification_code)
+        return JsonResponse(answer)

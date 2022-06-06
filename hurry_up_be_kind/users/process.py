@@ -20,6 +20,7 @@ def _create_user(serializer_form):
         status=serializer_form.validated_data['status'].lower(),
         first_name=serializer_form.validated_data['first_name'],
         last_name=serializer_form.validated_data['last_name'],
+        patronymic=serializer_form.validated_data['patronymic'],
         password=serializer_form.validated_data['password'],
         random_number=int(random),
     )
@@ -67,7 +68,7 @@ def _random_int():
     '''Функция генерирует случайное четырехзначное число'''
     random_number = randint(1000, 9999)
     return random_number
-    # _sending_sms(user=user, random_number=random_number)
+
 
 
 def _get_tokens_for_user(user):
@@ -96,6 +97,7 @@ def _inf_user(request):
 
     context = {'last_name': request.user.last_name,
                'first_name': request.user.first_name,
+               'patronymic': request.user.patronymic,
                'phone': request.user.phone,
                'about_me': request.user.about_me,
                'link_user_img': image_user,
@@ -154,3 +156,19 @@ def _delete_user(request):
     _delete_img(user_file)
     user_profile.delete()
     return True
+
+def _verification_user(user, verification_code):
+    ''' Функция проверки совпадает ли код введенный пользователем с кодом сгенерированным программой '''
+    random_code = user.random_number
+    if verification_code == random_code and random_code != 0:
+        if user.status == "ward":
+            return {
+                'registration': True,
+                'message': 'Дождитесь подтверждения профиля'
+            }
+        user.is_active = True
+        user.random_number = 0
+        user.save()
+        jwt_token = _get_tokens_for_user(user=user)
+        return jwt_token
+    return {'error': 'The code is not correct'}

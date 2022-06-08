@@ -6,7 +6,7 @@ app_name = 'feedback'
 
 
 urlpatterns = [
-    path('feedback_user/', FeedbackUser.as_view(), name='feedback_user'),
+    path('feedback_create/', FeedbackUser.as_view(), name='feedback_create'),
     path('feedback_status/', FeedbackStatus.as_view(), name='feedback_status'),
     path('all_feedback/', AllFeedback.as_view(), name='all_feedback'),
     path('feedback_received/', ReceivedFeedback.as_view(), name='feedback_received'),

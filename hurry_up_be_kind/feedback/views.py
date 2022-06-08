@@ -1,8 +1,5 @@
 from django.http import JsonResponse
-from requests import Response
-from rest_framework import status
 from rest_framework.generics import CreateAPIView, ListAPIView, DestroyAPIView
-from rest_framework.mixins import DestroyModelMixin
 from rest_framework.permissions import AllowAny, IsAdminUser
 from rest_framework.views import APIView
 from . import process
@@ -48,6 +45,7 @@ class ArchiveFeedback(ListAPIView):
 
 
 class DeleteFeedback(DestroyAPIView):
+    """Класс удаления сообщений обратной связи"""
     permission_classes = (IsAdminUser,)
 
     def delete(self, request, *args, **kwargs):

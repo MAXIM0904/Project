@@ -1,0 +1,15 @@
+.personal_data_container {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.personal_data_text_h1 {
+    text-align: center;
+    margin-top: 0;
+}
+
+.personal_data_text_list {
+    text-indent: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}

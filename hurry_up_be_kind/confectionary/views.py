@@ -7,7 +7,7 @@ from .serializers import ConfectionarySerializer
 
 
 class RegisterConfectionary(APIView):
-    permission_classes= [AllowAny, ]
+    permission_classes= [IsAuthenticated, ]
 
     def post(self, request, *args, **kwargs):
         print('1')

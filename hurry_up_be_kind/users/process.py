@@ -105,7 +105,7 @@ def _inf_user(request):
                'status': status,
                }
 
-    if status == 'philantropist':
+    if status in ['philantropist', 'confectioner']:
         context['size_donations'] = request.user.size_donations
 
     return context
@@ -163,8 +163,8 @@ def _verification_user(user, verification_code):
     if verification_code == random_code and random_code != 0:
         if user.status == "ward":
             return {
-                'registration': True,
-                'message': 'Дождитесь подтверждения профиля'
+                'registration': 'True',
+                'message': 'Дождитесь подтверждения профиля администратором'
             }
         user.is_active = True
         user.random_number = 0

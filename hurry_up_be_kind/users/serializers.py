@@ -27,3 +27,4 @@ class AllUserSerializer(serializers.ModelSerializer):
         model = UserData
         fields = ('first_name', 'last_name', 'patronymic', 'phone', 'address_ward', 'about_me',
                   'status', 'size_donations')
+

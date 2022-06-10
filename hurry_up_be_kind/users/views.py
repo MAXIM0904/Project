@@ -1,3 +1,4 @@
+from django.contrib.auth.hashers import make_password
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
@@ -21,7 +22,6 @@ class RegistrationUser(APIView):
         serializer.is_valid(raise_exception=True)
         try:
             create_user = process._create_user(serializer_form=serializer)
-
         except Exception as error:
             return JsonResponse({'registration': 'error',
                                  'id': str(error)})
@@ -89,3 +89,22 @@ class Verification_sms(APIView):
         user = UserData.objects.get(id=request.data['id'])
         answer = process._verification_user(user=user, verification_code=verification_code)
         return JsonResponse(answer)
+
+
+class PasswordRecovery(APIView):
+    """Класс восстановления пароля"""
+    permission_classes = (AllowAny,)
+
+    def post(self, request):
+        try:
+            user = UserData.objects.get(username=request.data['phone'])
+            password = make_password(password=request.data['password'], salt=None, hasher='default')
+            user.password = password
+            user.save()
+            return JsonResponse({'registration': 'True',
+                                 'id': 'Пароль изменен.'})
+
+        except Exception as error:
+            return JsonResponse({'registration': 'error',
+                                 'id': str(error)})
+

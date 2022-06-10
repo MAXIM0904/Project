@@ -20,7 +20,7 @@ class UserData(AbstractUser):
         message="Phone number must be entered in the format: '79101111111'. Up to 15 digits allowed."
     )
     phone = models.CharField(('phone number'), validators=[phone_regex], max_length=17)
-    patronymic = models.CharField(max_length=150, blank=True, verbose_name="Отчество")
+    patronymic = models.CharField(max_length=150, blank=True, null=True, verbose_name="Отчество")
     status = models.CharField(max_length=14, choices=STATUS_CHOICES, verbose_name="Статус пользователя")
     size_donations = models.IntegerField(default=0, verbose_name="Размер пожертвований")
     address_ward = models.TextField(default="", verbose_name="Адрес места нахождения")

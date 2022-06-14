@@ -85,10 +85,15 @@ class Verification_sms(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request):
-        verification_code = int(request.data['verification_code'])
-        user = UserData.objects.get(id=request.data['id'])
-        answer = process._verification_user(user=user, verification_code=verification_code)
-        return JsonResponse(answer)
+        try:
+            verification_code = int(request.data['verification_code'])
+            user = UserData.objects.get(id=request.data['id'])
+            answer = process._verification_user(user=user, verification_code=verification_code)
+            return JsonResponse(answer)
+
+        except Exception as error:
+            return JsonResponse({'registration': 'error',
+                                 'id': str(error)})
 
 
 class PasswordRecovery(APIView):
@@ -98,13 +103,29 @@ class PasswordRecovery(APIView):
     def post(self, request):
         try:
             user = UserData.objects.get(username=request.data['phone'])
-            password = make_password(password=request.data['password'], salt=None, hasher='default')
-            user.password = password
+            user.random_number = process._random_int()
             user.save()
+            process._sending_sms(user)
             return JsonResponse({'registration': 'True',
-                                 'id': 'Пароль изменен.'})
+                                 'id': 'Введите пароль из СМС'})
 
         except Exception as error:
             return JsonResponse({'registration': 'error',
                                  'id': str(error)})
 
+
+    def patch(self, request):
+        try:
+            user = UserData.objects.get(username=request.data['phone'])
+            verification_code = int(request.data['verification_code'])
+            new_password = request.data['password']
+            answer = process._verification_user(user=user, verification_code=verification_code)
+            print(answer)
+            password = make_password(password=new_password, salt=None, hasher='default')
+            user.password = password
+            user.save()
+            return JsonResponse(answer)
+
+        except Exception as error:
+            return JsonResponse({'registration': 'error',
+                                 'id': str(error)})

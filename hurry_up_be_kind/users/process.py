@@ -3,8 +3,6 @@ from .models import UserData, AvatarUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from .forms import ImgForm
 from random import randint
-from base64 import b64encode
-import requests
 import json
 
 
@@ -31,15 +29,12 @@ def _create_user(serializer_form):
 def _sending_sms(user):
     ''' Функция отправки СМС пользователю '''
     number = user.username
-    login = os.environ.get("login_sms")
-    password = os.environ.get("password_sms")
     random_number = user.random_number
 
     url = 'https://omnichannel.mts.ru/http-api/v1/messages'
-    bit_password = b64encode(bytes(f"{login}:{password}", "utf-8")).decode("ascii")
 
     headers = {
-        "Authorization": f"Basic {bit_password}",
+        "Authorization": "Basic Z3dfaGtOUTVNb3k4ZFB2OmIxY0RMR3dr",
         "Content-Type": "application/json"
     }
     payload = json.dumps({
@@ -49,7 +44,7 @@ def _sending_sms(user):
                     "short_text": f"{random_number}"
                 },
                 "from": {
-                    "sms_address": "MTSM_Test"
+                    "sms_address": "SkoreiDobre"
                 },
                 "to": [
                     {
@@ -122,8 +117,7 @@ def _image_save(request):
             file_instanse.save()
         return True
 
-    else:
-        raise TypeError({'error': 'no image found'})
+    raise TypeError('no image found')
 
 
 def _save_data_user(request, user_form):
@@ -159,7 +153,7 @@ def _delete_user(request):
 
 def _verification_user(user, verification_code):
     ''' Функция проверки совпадает ли код введенный пользователем с кодом сгенерированным программой '''
-    random_code = user.random_number
+    random_code = int(user.random_number)
     if verification_code == random_code and random_code != 0:
         if user.status == "ward":
             return {
@@ -171,4 +165,5 @@ def _verification_user(user, verification_code):
         user.save()
         jwt_token = _get_tokens_for_user(user=user)
         return jwt_token
-    return {'error': 'The code is not correct'}
+
+    raise ValueError ('Код не совпадает.')

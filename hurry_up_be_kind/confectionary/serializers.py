@@ -11,3 +11,11 @@ class ConfectionarySerializer(serializers.ModelSerializer):
         model = Confectionary
         fields = ('confectionary_name', 'number_phone', 'description_confectionary',
                   'address_ward', 'img_confectionary')
+
+class ConfectionaryAllSerializer(serializers.ModelSerializer):
+    ''' Сериализация данных кондитерской '''
+
+    class Meta:
+        model = Confectionary
+        fields = ('id', 'confectionary_name', 'number_phone', 'description_confectionary',
+                  'address_ward')

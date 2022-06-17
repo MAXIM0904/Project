@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'business',
     'information_pages',
     'feedback',
+    'menu',
 
 ]
 

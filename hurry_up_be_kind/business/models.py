@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import UserData
-from confectionary.models import Menu
+# from confectionary.models import Menu
+
 
 class Basket(models.Model):
     '''
@@ -17,7 +18,7 @@ class Basket(models.Model):
 
     user_philantropist = models.ManyToManyField(UserData, blank=True, related_name="user_philantropist")
     user_ward = models.ManyToManyField(UserData, blank=True, related_name="user_ward")
-    user_confectionary = models.ManyToManyField(Menu, related_name="user_confectionary")
+    # user_confectionary = models.ManyToManyField(Menu, related_name="user_confectionary")
 
     count_menu = models.IntegerField(verbose_name="Количество блюд")
     order_status = models.CharField(max_length=200, choices=STATUS_ORDER, verbose_name="Статус заказа")

@@ -12,6 +12,8 @@ djangorestframework = "*"
 djangorestframework-simplejwt = "*"
 drf-yasg = {extras = ["validation"], version = "*"}
 mysqlclient = "*"
+openpyxl = "*"
+defusedxml = "*"
 
 [dev-packages]
 

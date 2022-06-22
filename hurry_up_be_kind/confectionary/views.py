@@ -56,6 +56,7 @@ class UpdateConfectionary(APIView):
 
 
 class DeleteConfectionary(APIView):
+    '''Класс удаления кондитерской'''
     permission_classes = (IsAuthenticated,)
 
     def delete(self, request):

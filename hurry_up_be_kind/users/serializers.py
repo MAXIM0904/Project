@@ -7,7 +7,7 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserData
-        fields = ('first_name', 'last_name', 'phone', 'status', 'password', 'random_number', 'patronymic')
+        fields = ('first_name', 'last_name', 'phone', 'email', 'status', 'password', 'random_number', 'patronymic')
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):
@@ -17,7 +17,7 @@ class UserUpdateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserData
-        fields = ('first_name', 'last_name', 'patronymic', 'phone', 'address_ward', 'about_me', 'image')
+        fields = ('first_name', 'last_name', 'patronymic', 'phone', 'email', 'address_ward', 'about_me', 'image')
 
 
 class AllUserSerializer(serializers.ModelSerializer):
@@ -25,6 +25,6 @@ class AllUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserData
-        fields = ('first_name', 'last_name', 'patronymic', 'phone', 'address_ward', 'about_me',
+        fields = ('first_name', 'last_name', 'patronymic', 'phone', 'email', 'address_ward', 'about_me',
                   'status', 'size_donations')
 

@@ -12,15 +12,21 @@ def _create_user(serializer_form):
     Сохраняет номер телефона в username.
     """
     random = _random_int()
+    email = ''
+    if serializer_form.validated_data.get('email'):
+        email = serializer_form.validated_data['email']
+
     create_user = UserData.objects.create_user(
         username=serializer_form.validated_data['phone'],
         phone=serializer_form.validated_data['phone'],
+        email= email,
         status=serializer_form.validated_data['status'].lower(),
         first_name=serializer_form.validated_data['first_name'],
         last_name=serializer_form.validated_data['last_name'],
         patronymic=serializer_form.validated_data['patronymic'],
         password=serializer_form.validated_data['password'],
         random_number=int(random),
+
     )
     _sending_sms(user=create_user)
     return create_user
@@ -65,7 +71,6 @@ def _random_int():
     return random_number
 
 
-
 def _get_tokens_for_user(user):
     """ Функция выдачи JWT токена """
     refresh = RefreshToken.for_user(user)
@@ -94,6 +99,7 @@ def _inf_user(request):
                'first_name': request.user.first_name,
                'patronymic': request.user.patronymic,
                'phone': request.user.phone,
+               'email': request.user.email,
                'about_me': request.user.about_me,
                'link_user_img': image_user,
                'address_ward': request.user.address_ward,
@@ -151,19 +157,27 @@ def _delete_user(request):
     user_profile.delete()
     return True
 
-def _verification_user(user, verification_code):
-    ''' Функция проверки совпадает ли код введенный пользователем с кодом сгенерированным программой '''
+
+def _verification_code(user, verification_code):
     random_code = int(user.random_number)
     if verification_code == random_code and random_code != 0:
+        user.random_number = 0
+        user.save()
+        return True
+    else:
+        raise TypeError('Код не совпадает')
+
+
+
+def _verification_user(user, verification_code):
+    ''' Функция проверки совпадает ли код введенный пользователем с кодом сгенерированным программой '''
+    if _verification_code(user=user, verification_code=verification_code):
         if user.status == "ward":
             return {
                 'registration': 'True',
                 'message': 'Дождитесь подтверждения профиля администратором'
             }
         user.is_active = True
-        user.random_number = 0
         user.save()
         jwt_token = _get_tokens_for_user(user=user)
         return jwt_token
-
-    raise ValueError ('Код не совпадает.')

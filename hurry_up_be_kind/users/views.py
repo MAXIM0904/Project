@@ -105,7 +105,7 @@ class PasswordRecovery(APIView):
             user = UserData.objects.get(username=request.data['phone'])
             user.random_number = process._random_int()
             user.save()
-            process._sending_sms(user)
+            process._sending_sms(user=user)
             return JsonResponse({'registration': 'True',
                                  'id': 'Введите пароль из СМС'})
 
@@ -119,11 +119,11 @@ class PasswordRecovery(APIView):
             user = UserData.objects.get(username=request.data['phone'])
             verification_code = int(request.data['verification_code'])
             new_password = request.data['password']
-            answer = process._verification_user(user=user, verification_code=verification_code)
-            print(answer)
+            process._verification_code(user=user, verification_code=verification_code)
             password = make_password(password=new_password, salt=None, hasher='default')
             user.password = password
             user.save()
+            answer = process._get_tokens_for_user(user=user)
             return JsonResponse(answer)
 
         except Exception as error:

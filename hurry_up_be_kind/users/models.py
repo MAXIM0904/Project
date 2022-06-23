@@ -32,7 +32,7 @@ class UserData(AbstractUser):
     about_me = models.TextField(verbose_name="О себе", blank=True)
     registrarion_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации")
     random_number = models.IntegerField(verbose_name="Код верификации", default=0)
-
+    email = models.EmailField(('email address'), blank=True, null=True, default=None)
 
 
     class Meta:

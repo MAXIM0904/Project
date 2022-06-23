@@ -2,8 +2,8 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import WishesWard
-from .serializers import WishesWardSerializer, InfoWishesWardSerializer
+from .models import WishesWard, OrderTaken
+from .serializers import WishesWardSerializer, InfoWishesWardSerializer, OrderTakenSerializer, MakeGiftSerializer
 from django.http import JsonResponse
 from . import process
 
@@ -37,13 +37,11 @@ class WishesWardCreate(APIView):
 
 
 class AllWishesWard(ListAPIView):
-    '''Предоставление всех пожелания в базе данных '''
+    """ Предоставление всех не взятых желании подопечных """
     permission_classes = (IsAuthenticated,)
-    queryset = WishesWard.objects.all()
-
 
     def list(self, request, *args, **kwargs):
-        queryset = WishesWard.objects.all()
+        queryset = WishesWard.objects.filter(order_wishes='posted')
         instanse_list = []
         for inf_wishes in queryset:
             instance = process._inf_order(instanse_wishes=inf_wishes)
@@ -52,12 +50,11 @@ class AllWishesWard(ListAPIView):
 
 
 class DeleteWishesWard(APIView):
+    """ Удаление желания подопечного """
     permission_classes = (IsAuthenticated,)
 
     def delete(self, request):
-        print(request.data['id_wishes'])
         try:
-            print(request)
             instance = WishesWard.objects.get(id=request.data['id_wishes'])
             if request.user.id == instance.ward.id:
                 instance.delete()
@@ -71,16 +68,50 @@ class DeleteWishesWard(APIView):
 
 
 
+class OrderTakenUser(APIView):
+    """ Класс позволяет взять заказ """
+    permission_classes = (IsAuthenticated,)
 
-# class MyWishesWard(ListAPIView):
-#     '''Предоставление пожеланий конкретного пользователя '''
-#     permission_classes = (IsAuthenticated,)
-#     queryset = WishesWard.objects.filter(id=request.id)
-#
-#     def list(self, request, *args, **kwargs):
-#         queryset = WishesWard.objects.all()
-#         instanse_list = []
-#         for inf_wishes in queryset:
-#             instance = process._inf_order(instanse_wishes=inf_wishes)
-#             instanse_list.append(instance)
-#         return Response(instanse_list)
+    def post(self, request):
+        instance = WishesWard.objects.get(id=request.data['id_wishes'])
+        OrderTaken.objects.create(
+            user_philantropist_id=request.user,
+            wishes_ward_id=instance,
+            order_status = 'generated'
+        )
+        instance.order_wishes = 'taken'
+        instance.save()
+        return JsonResponse({'status': 'True'})
+
+
+
+class MyOrderTaken(ListAPIView):
+    """ Класс предоставляет информацию о взятых заказах """
+    permission_classes = (IsAuthenticated,)
+    queryset = OrderTaken.objects.all()
+    serializer_class = OrderTakenSerializer
+
+
+class OrderPayment(APIView):
+    """ Класс оплаты заказа """
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request):
+        instance = OrderTaken.objects.get(id=request.data['id_order'])
+        instance.order_status = 'paid_for'
+        instance.save()
+        return JsonResponse({'status': 'True'})
+
+
+class MakeGift(APIView):
+    ''' Сделать подарок '''
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        order_form = MakeGiftSerializer(data=request.data)
+        order_form.is_valid(raise_exception=True)
+        form = order_form.save()
+        form.user_philantropist_id = request.user
+        form.save()
+        instance = MakeGiftSerializer(form)
+        return JsonResponse(instance.data)

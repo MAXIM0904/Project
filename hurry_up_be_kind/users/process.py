@@ -7,7 +7,7 @@ import requests
 import json
 
 
-def _create_user(serializer_form):
+def _create_user(serializer_form, request=None):
     """
     Функция сохранения данных пользователя в базу данных.
     Сохраняет номер телефона в username.
@@ -16,6 +16,7 @@ def _create_user(serializer_form):
     email = ''
     if serializer_form.validated_data.get('email'):
         email = serializer_form.validated_data['email']
+
 
     create_user = UserData.objects.create_user(
         username=serializer_form.validated_data['phone'],
@@ -27,9 +28,14 @@ def _create_user(serializer_form):
         patronymic=serializer_form.validated_data['patronymic'],
         password=serializer_form.validated_data['password'],
         random_number=int(random),
-
     )
+
+    if serializer_form.validated_data.get('save_file'):
+        print('908')
+        _file_save(request=request, user_instanse=create_user)
+
     _sending_sms(user=create_user)
+
     return create_user
 
 
@@ -119,14 +125,19 @@ def _inf_user(request):
     return context
 
 
-def _file_save(request):
+def _file_save(request, user_instanse=None):
     """ Функция массового сохранения картинок """
-    form_img = ImgForm(request.POST, request.FILES)
-    if form_img.is_valid():
-        files = form_img.files.getlist('save_file')
+    if user_instanse:
+        user_profile = user_instanse
+    else:
+        user_profile = request.user
+
+    form_file = ImgForm(request.POST, request.FILES)
+    if form_file.is_valid():
+        files = form_file.files.getlist('save_file')
 
         for i_files in files:
-            file_instanse = AvatarUser(model_file=request.user, file_user=i_files)
+            file_instanse = AvatarUser(model_file=user_profile, file_user=i_files)
             file_instanse.save()
         return True
 

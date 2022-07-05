@@ -21,7 +21,7 @@ class RegistrationUser(APIView):
         serializer = UserRegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         try:
-            create_user = process._create_user(serializer_form=serializer)
+            create_user = process._create_user(serializer_form=serializer, request=request)
         except Exception as error:
             return JsonResponse({'registration': 'error',
                                  'id': str(error)})

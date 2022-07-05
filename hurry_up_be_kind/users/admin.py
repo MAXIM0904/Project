@@ -2,10 +2,7 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import Group
 from .process import _sending_sms
-
-
 from .models import UserData, AvatarUser
-
 
 
 class AvatarUserAdmin(admin.ModelAdmin):
@@ -22,17 +19,20 @@ class UserDataAdmin(admin.ModelAdmin):
     inlines = [
         AdminAvatarUser,
     ]
-    list_display = ('get_avatar_user', 'username', 'first_name', 'last_name', 'patronymic', 'email', 'address_ward',
+    list_display = ('get_avatar_user', 'author_username', 'first_name', 'last_name', 'patronymic', 'email', 'address_ward',
                     'about_me', 'status', 'is_active', )
-    list_display_links = ('get_avatar_user', 'username')
+    list_display_links = ('get_avatar_user', 'author_username')
     list_filter = ('status', 'is_active')
-    search_fields = ('first_name', 'username')
-
+    search_fields = ('first_name', 'author_username')
 
     def get_avatar_user(self, object):
         if object.avatar_user:
             return mark_safe(f'<img src="{object.avatar_user.url}" width=50>')
+    get_avatar_user.short_description = 'Аватар'
 
+    def author_username(self, obj):
+        return obj.username
+    author_username.short_description = 'Номер телефона'
 
     def get_fields(self, request, obj=None):
         if obj:
@@ -46,17 +46,13 @@ class UserDataAdmin(admin.ModelAdmin):
         else:
             return super().get_fields(request, obj)
 
-
     def __str__(self):
         return "Пользователи"
 
-
     def save_form(self, request, form, change):
-        print(request.POST['username'])
         instanse = form.save(commit=False)
         if request.POST.get('is_active'):
             _sending_sms(user=instanse, flag=1)
-            print('po[op')
         return instanse
 
 

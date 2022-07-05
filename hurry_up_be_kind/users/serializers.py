@@ -4,10 +4,12 @@ from .models import UserData
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     ''' Сериализатор регистрации нового пользователя '''
+    save_file = serializers.FileField()
 
     class Meta:
         model = UserData
-        fields = ('first_name', 'last_name', 'phone', 'email', 'status', 'password', 'random_number', 'patronymic')
+        fields = ('first_name', 'last_name', 'patronymic', 'phone', 'email', 'status', 'password',
+                  'random_number', 'save_file',)
 
 
 class UserUpdateSerializer(serializers.ModelSerializer):

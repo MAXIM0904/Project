@@ -15,28 +15,33 @@ class UserData(AbstractUser):
         ("ward", "ward"),
         ("confectioner", "confectioner"),
     ]
+
     phone_regex = RegexValidator(
-        regex=r'^\+?1?\d{9,15}$',
-        message="Phone number must be entered in the format: '79101111111'. Up to 15 digits allowed."
+        regex=r'^\+?1?\d{9,12}$',
+        message="Номер телефона должен быть введен в формате: '79101111111'. Допускается до 12 цифр."
     )
-    phone = models.CharField(('phone number'), validators=[phone_regex], max_length=17)
+    phone = models.CharField(('Номер телефона'), validators=[phone_regex], max_length=17)
     patronymic = models.CharField(max_length=150, blank=True, null=True, verbose_name="Отчество")
     status = models.CharField(max_length=14, choices=STATUS_CHOICES, verbose_name="Статус пользователя")
     size_donations = models.IntegerField(default=0, verbose_name="Размер пожертвований")
     address_ward = models.TextField(default="", verbose_name="Адрес места нахождения")
     is_active = models.BooleanField(
-        ('active'), default=False,
-        help_text=('Designates whether this user should be treated as active. '
-                   'Unselect this instead of deleting accounts.')
+        ('Активность'), default=False,
+        help_text=('Определяет, следует ли рассматривать этого пользователя как активного. ',
+                   "Отмените выбор этого параметра вместо удаления учетных записей.")
     )
     about_me = models.TextField(verbose_name="О себе", blank=True)
     registrarion_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата регистрации")
     random_number = models.IntegerField(verbose_name="Код верификации", default=0)
-    email = models.EmailField(('email address'), blank=True, null=True, default=None)
+    email = models.EmailField(('E-mail'), blank=True, null=True, default=None)
+    avatar_user = models.ImageField(upload_to="avatar_user/", verbose_name="Аватар пользователя", null=True, blank=True)
 
 
     class Meta:
         ordering = ["status"]
+        verbose_name_plural = 'Пользователи'
+        verbose_name = 'пользователя'
+
 
     def __str__(self):
         return str(self.username)
@@ -45,10 +50,15 @@ class UserData(AbstractUser):
 class AvatarUser(models.Model):
     """
     Модель добавления аватара пользователя
-    avatar_user_img принимает Images
+    file_user принимает Images
     """
     model_file = models.ForeignKey('UserData', on_delete=models.CASCADE, related_name='model_file')
-    avatar_user_img = models.ImageField(upload_to="avatar_philantropist/", verbose_name="Аватар профиля", blank=True)
+    file_user = models.FileField(upload_to="file_user/", verbose_name="Файлы пользователя", blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Файлы пользователей'
+        verbose_name = 'файлы пользователя'
+
 
     def __str__(self):
-        return str(self.avatar_user_img)
+        return str(self.file_user)

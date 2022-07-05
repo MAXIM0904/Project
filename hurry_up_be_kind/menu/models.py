@@ -19,8 +19,8 @@ class Menu(models.Model):
 
     class Meta:
         ordering = ["price_dish"]
-        verbose_name = 'Меню'
-        verbose_name_plural = 'Пункты меню'
+        verbose_name = 'пункты меню'
+        verbose_name_plural = 'Меню'
 
     def __str__(self):
         return self.name_dish

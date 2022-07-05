@@ -3,6 +3,7 @@ from .models import UserData, AvatarUser
 from rest_framework_simplejwt.tokens import RefreshToken
 from .forms import ImgForm
 from random import randint
+import requests
 import json
 
 
@@ -32,10 +33,16 @@ def _create_user(serializer_form):
     return create_user
 
 
-def _sending_sms(user):
+def _message_user(user, flag):
+    if flag:
+        return 'Ваш профиль активирован. Войдите в приложение фонда "Скорей добрей"'
+    return user.random_number
+
+
+def _sending_sms(user, flag=None):
     ''' Функция отправки СМС пользователю '''
     number = user.username
-    random_number = user.random_number
+    message_number = _message_user(user=user, flag=flag)
 
     url = 'https://omnichannel.mts.ru/http-api/v1/messages'
 
@@ -47,7 +54,7 @@ def _sending_sms(user):
         "messages": [
             {
                 "content": {
-                    "short_text": f"{random_number}"
+                    "short_text": f"{message_number}"
                 },
                 "from": {
                     "sms_address": "SkoreiDobre"
@@ -81,28 +88,28 @@ def _get_tokens_for_user(user):
     }
 
 
-def _image_get(request):
-    """ Функция возвращает список адресов картинок пользователя """
-    list_images = []
-    image_user = request.user.model_file.all()
-    for i_image in image_user:
-        list_images.append(f'images/{i_image}')
-    return list_images
+def _file_get(request):
+    """ Функция возвращает список файлов пользователя """
+    list_files = []
+    file_user = request.user.model_file.all()
+    for i_file in file_user:
+        list_files.append(f'{i_file}')
+    return list_files
 
 
 def _inf_user(request):
     """ Функция возвращает информацию о пользователе """
-    image_user = _image_get(request=request)
+    file_user = _file_get(request=request)
     status = request.user.status
-
     context = {'last_name': request.user.last_name,
                'first_name': request.user.first_name,
                'patronymic': request.user.patronymic,
                'phone': request.user.phone,
                'email': request.user.email,
-               'about_me': request.user.about_me,
-               'link_user_img': image_user,
                'address_ward': request.user.address_ward,
+               'about_me': request.user.about_me,
+               'avatar_user': str(request.user.avatar_user),
+               'link_user_files': file_user,
                'status': status,
                }
 
@@ -112,18 +119,18 @@ def _inf_user(request):
     return context
 
 
-def _image_save(request):
+def _file_save(request):
     """ Функция массового сохранения картинок """
     form_img = ImgForm(request.POST, request.FILES)
     if form_img.is_valid():
-        images = form_img.files.getlist('image')
+        files = form_img.files.getlist('save_file')
 
-        for i_image in images:
-            file_instanse = AvatarUser(model_file=request.user, avatar_user_img=i_image)
+        for i_files in files:
+            file_instanse = AvatarUser(model_file=request.user, file_user=i_files)
             file_instanse.save()
         return True
 
-    raise TypeError('no image found')
+    raise TypeError('no files found')
 
 
 def _save_data_user(request, user_form):
@@ -134,8 +141,8 @@ def _save_data_user(request, user_form):
     if user_form.validated_data.get('phone'):
         request.user.username = user_form.validated_data['phone']
 
-    if user_form.validated_data.get('image'):
-        _image_save(request=request)
+    if user_form.validated_data.get('save_file'):
+        _file_save(request=request)
 
     user_form.save()
     return True
@@ -152,7 +159,7 @@ def _delete_img(url_img):
 def _delete_user(request):
     """ Функция удаления пользователя из базы данных """
     user_profile = UserData.objects.get(id=request.user.id)
-    user_file = _image_get(request)
+    user_file = _file_get(request)
     _delete_img(user_file)
     user_profile.delete()
     return True

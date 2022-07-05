@@ -10,9 +10,13 @@ class Confectionary(models.Model):
     description_confectionary = models.TextField(verbose_name="Описание", blank=True)
     address_ward = models.TextField(verbose_name="Адрес кондитерской", blank=True)
 
+    class Meta:
+        verbose_name = 'кондитерские'
+        verbose_name_plural = 'Кондитерские'
+
+
     def __str__(self):
         return self.confectionary_name
-
 class ImgFileConfectionary(models.Model):
     '''
     Модель добавления фотографий кондитерской

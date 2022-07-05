@@ -6,7 +6,7 @@ from .models import AvatarUser
 class ImgForm(forms.ModelForm):
     class Meta:
         model = AvatarUser
-        fields = ('avatar_user_img', )
+        fields = ('file_user', )
         widgets = {
-            'avatar_user_img': ClearableFileInput(attrs={'multiple': True})
+            'file_user': ClearableFileInput(attrs={'multiple': True})
         }

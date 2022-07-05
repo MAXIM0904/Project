@@ -13,11 +13,12 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 class UserUpdateSerializer(serializers.ModelSerializer):
     ''' Сериализация изменения данных профиля UserData '''
 
-    image = serializers.ImageField()
+    save_file = serializers.FileField()
 
     class Meta:
         model = UserData
-        fields = ('first_name', 'last_name', 'patronymic', 'phone', 'email', 'address_ward', 'about_me', 'image')
+        fields = ('first_name', 'last_name', 'patronymic', 'phone', 'email', 'address_ward',
+                  'about_me', 'save_file', 'avatar_user')
 
 
 class AllUserSerializer(serializers.ModelSerializer):
@@ -26,5 +27,5 @@ class AllUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserData
         fields = ('first_name', 'last_name', 'patronymic', 'phone', 'email', 'address_ward', 'about_me',
-                  'status', 'size_donations')
+                  'status', 'size_donations', 'avatar_user')
 

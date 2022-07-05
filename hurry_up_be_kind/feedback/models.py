@@ -22,6 +22,9 @@ class Feedback(models.Model):
 
     class Meta:
         ordering = ["status"]
+        verbose_name = 'сообщение обратной связи'
+        verbose_name_plural = 'Обратная связь'
+
 
     def __str__(self):
         return str(self.id)

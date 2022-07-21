@@ -17,6 +17,8 @@ class Confectionary(models.Model):
 
     def __str__(self):
         return self.confectionary_name
+
+
 class ImgFileConfectionary(models.Model):
     '''
     Модель добавления фотографий кондитерской

@@ -17,12 +17,17 @@ def _create_user(serializer_form, request=None):
     if serializer_form.validated_data.get('email'):
         email = serializer_form.validated_data['email']
 
+    status_user = serializer_form.validated_data['status'].lower()
+
+    if status_user == 'ward':
+        if not serializer_form.validated_data.get('save_file'):
+            raise ValueError('Необходимо загрузить документы.')
 
     create_user = UserData.objects.create_user(
         username=serializer_form.validated_data['phone'],
         phone=serializer_form.validated_data['phone'],
         email= email,
-        status=serializer_form.validated_data['status'].lower(),
+        status=status_user,
         first_name=serializer_form.validated_data['first_name'],
         last_name=serializer_form.validated_data['last_name'],
         patronymic=serializer_form.validated_data['patronymic'],
@@ -30,9 +35,9 @@ def _create_user(serializer_form, request=None):
         random_number=int(random),
     )
 
-    if serializer_form.validated_data.get('save_file'):
-        print('908')
+    if status_user == 'ward':
         _file_save(request=request, user_instanse=create_user)
+
 
     _sending_sms(user=create_user)
 

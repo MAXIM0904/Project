@@ -4,7 +4,7 @@ from .models import UserData
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
     ''' Сериализатор регистрации нового пользователя '''
-    save_file = serializers.FileField()
+    save_file = serializers.FileField(required=False)
 
     class Meta:
         model = UserData

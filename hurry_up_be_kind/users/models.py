@@ -47,10 +47,10 @@ class UserData(AbstractUser):
         return str(self.username)
 
 
-class AvatarUser(models.Model):
+class FileUser(models.Model):
     """
-    Модель добавления аватара пользователя
-    file_user принимает Images
+    Модель добавления файлов пользователем
+    file_user принимает любые файлы
     """
     model_file = models.ForeignKey('UserData', on_delete=models.CASCADE, related_name='model_file')
     file_user = models.FileField(upload_to="file_user/", verbose_name="Файлы пользователя", blank=True)

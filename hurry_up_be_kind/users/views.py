@@ -10,7 +10,7 @@ from . import process
 
 
 def home_page(request):
-    return render (request, 'templates/homepage.html', {})
+    return render(request, 'templates/homepage.html', {})
 
 
 class RegistrationUser(APIView):
@@ -18,10 +18,8 @@ class RegistrationUser(APIView):
     permission_classes = (AllowAny,)
 
     def post(self, request, *args, **kwargs):
-        serializer = UserRegistrationSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
         try:
-            create_user = process._create_user(serializer_form=serializer, request=request)
+            create_user = process._create_user(request=request)
         except Exception as error:
             return JsonResponse({'registration': 'error',
                                  'id': str(error)})
@@ -31,7 +29,7 @@ class RegistrationUser(APIView):
 
 
 class InfUser(APIView):
-    '''Класс возвращает информацию о пользователе'''
+    """ Класс возвращает информацию о пользователе """
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
@@ -40,7 +38,7 @@ class InfUser(APIView):
 
 
 class UpdateUser(APIView):
-    '''Класс изменения данных пользователя'''
+    """ Класс изменения данных пользователя """
     permission_classes = (IsAuthenticated,)
 
     def patch(self, request, *args, **kwargs):
@@ -52,6 +50,7 @@ class UpdateUser(APIView):
 
 
 class DeleteUser(APIView):
+    """ Класс удаления данный пользователя """
     permission_classes = (IsAuthenticated,)
 
     def get(self, request):
@@ -60,28 +59,28 @@ class DeleteUser(APIView):
 
 
 class AllUsers(ListAPIView):
-    '''Предоставление всех пользователей в базе данных '''
+    """ Предоставление всех пользователей в базе данных """
     permission_classes = (IsAdminUser,)
     queryset = UserData.objects.all()
     serializer_class = AllUserSerializer
 
 
 class AllWard(ListAPIView):
-    '''Предоставление всех подопечных в базе данных '''
+    """ Предоставление всех подопечных в базе данных """
     permission_classes = (IsAuthenticated,)
     queryset = UserData.objects.filter(status="ward")
     serializer_class = AllUserSerializer
 
 
 class AllPhilantropist(ListAPIView):
-    '''Предоставление всех филантропов в базе данных '''
+    """ Предоставление всех филантропов в базе данных """
     permission_classes = (IsAdminUser,)
     queryset = UserData.objects.filter(status="philantropist")
     serializer_class = AllUserSerializer
 
 
-class Verification_sms(APIView):
-    ''' Класс верификации пользователя по СМС '''
+class VerificationSms(APIView):
+    """ Класс верификации пользователя по СМС """
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -97,7 +96,7 @@ class Verification_sms(APIView):
 
 
 class PasswordRecovery(APIView):
-    """Класс восстановления пароля"""
+    """ Класс восстановления пароля """
     permission_classes = (AllowAny,)
 
     def post(self, request):
@@ -112,7 +111,6 @@ class PasswordRecovery(APIView):
         except Exception as error:
             return JsonResponse({'registration': 'error',
                                  'id': str(error)})
-
 
     def patch(self, request):
         try:

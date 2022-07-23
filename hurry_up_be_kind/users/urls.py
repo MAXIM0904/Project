@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import RegistrationUser, InfUser, UpdateUser, DeleteUser, AllUsers, home_page, Verification_sms
+from .views import RegistrationUser, InfUser, UpdateUser, DeleteUser, AllUsers, home_page, VerificationSms
 from .views import AllPhilantropist, AllWard, PasswordRecovery
 
 urlpatterns = [
@@ -11,6 +11,6 @@ urlpatterns = [
     path('all_user/', AllUsers.as_view(), name='all_user'),
     path('all_ward/', AllWard.as_view(), name='all_ward'),
     path('all_philantropist/', AllPhilantropist.as_view(), name='all_philantropist'),
-    path('verification_sms/', Verification_sms.as_view(), name='verification_sms'),
+    path('verification_sms/', VerificationSms.as_view(), name='verification_sms'),
     path('password_recovery/', PasswordRecovery.as_view(), name='password_recovery'),
 ]

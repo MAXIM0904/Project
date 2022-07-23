@@ -2,22 +2,22 @@ from django.contrib import admin
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import Group
 from .process import _sending_sms
-from .models import UserData, AvatarUser
+from .models import UserData, FileUser
 
 
-class AvatarUserAdmin(admin.ModelAdmin):
+class FileUserAdmin(admin.ModelAdmin):
     list_display = ('model_file', 'file_user', )
     search_fields = ('file_user',)
 
 
-class AdminAvatarUser(admin.StackedInline):
-    model = AvatarUser
+class AdminFileUser(admin.StackedInline):
+    model = FileUser
     extra = 1
 
 
 class UserDataAdmin(admin.ModelAdmin):
     inlines = [
-        AdminAvatarUser,
+        AdminFileUser,
     ]
     list_display = ('get_avatar_user', 'author_username', 'first_name', 'last_name', 'patronymic', 'email', 'address_ward',
                     'about_me', 'status', 'is_active', )
@@ -57,7 +57,7 @@ class UserDataAdmin(admin.ModelAdmin):
 
 
 admin.site.register(UserData, UserDataAdmin)
-admin.site.register(AvatarUser, AvatarUserAdmin)
+admin.site.register(FileUser, FileUserAdmin)
 admin.site.site_title = 'Панель администратора сайта "Скорей Добрей"'
 admin.site.site_header = 'Панель администратора сайта "Скорей Добрей"'
 admin.site.unregister(Group)

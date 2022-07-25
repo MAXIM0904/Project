@@ -1,5 +1,4 @@
 import os.path
-
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.test import APITestCase, APIRequestFactory
 from users.serializers import UserUpdateSerializer

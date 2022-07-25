@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.http import JsonResponse
 from .models import UserData
-from .serializers import UserRegistrationSerializer, UserUpdateSerializer, AllUserSerializer
+from .serializers import  UserUpdateSerializer, AllUserSerializer
 from . import process
 
 

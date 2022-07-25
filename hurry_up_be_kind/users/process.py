@@ -15,8 +15,8 @@ def _create_user(request):
     """
     random = _random_int()
     email = ''
-
     serializer_form = UserRegistrationSerializer(data=request.data)
+
     serializer_form.is_valid(raise_exception=True)
 
     if serializer_form.validated_data.get('email'):
@@ -41,9 +41,7 @@ def _create_user(request):
     )
 
     if status_user == 'ward':
-
-        _file_save(request=request)
-
+        _file_save(request=request, user_instanse=create_user)
     _sending_sms(user=create_user)
 
     return create_user
@@ -140,21 +138,21 @@ def _inf_user(request):
     return context
 
 
-def _file_save(request):
-    """ Функция массового сохранения картинок """
-
-    user_profile = request.user
-
+def _file_save(request, user_instanse=None):
+    """ Функция массового сохранения файлов """
+    if user_instanse:
+        user_profile = user_instanse
+    else:
+        user_profile = request.user
     form_file = FileForm(request.POST, request.FILES)
     if form_file.is_valid():
         files = form_file.files.getlist('save_file')
-
         for i_files in files:
             file_instanse = FileUser(model_file=user_profile, file_user=i_files)
             file_instanse.save()
         return True
 
-    raise TypeError('no files found')
+    raise TypeError('файлы не найдены')
 
 
 def _save_data_user(request, user_form):
@@ -173,11 +171,12 @@ def _save_data_user(request, user_form):
 
 
 def _delete_img(url_img):
-    """ Функция удаления картинки """
+    """ Функция удаления файла """
     for i_img in url_img:
         if os.path.isfile(i_img):
             os.remove(i_img)
-    return True
+            return True
+    return 'Файлов нет'
 
 
 def _delete_user(request):

@@ -23,7 +23,6 @@ class RegistrationUser(APIView):
         except Exception as error:
             return JsonResponse({'registration': 'error',
                                  'id': str(error)})
-
         return JsonResponse({'registration': 'True',
                              'id': str(create_user.id)})
 

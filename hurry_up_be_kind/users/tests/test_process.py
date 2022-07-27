@@ -119,6 +119,7 @@ class TestMessageUser(APITestCase):
         self.request = self.factory.get('/accounts/django-superstars/')
         self.request.user = self.user_profile
 
+
     def test_message_user_flag(self):
         """ Тестирование корректности работы функции message_user флаг == '1' """
         answer = process._message_user(user=self.user_profile, flag=1)

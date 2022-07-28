@@ -1,4 +1,5 @@
 import tempfile
+import os.path
 import json
 from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.test import APITestCase, APIRequestFactory, APIClient
@@ -75,6 +76,9 @@ class TestRegistrationUser(APITestCase):
         self.assertEqual(user_profile[0].status, 'ward')
         self.assertEqual(user_profile[0].is_active, False)
 
+        if os.path.exists(f'images/file_user/{file.name}'):
+            os.remove(f'images/file_user/{file.name}')
+
     def test_registration_user_philantropist(self):
         """ Тестирование регистрации валидных данных philantropist """
         self.data_user['status'] = 'philantropist'
@@ -85,7 +89,7 @@ class TestRegistrationUser(APITestCase):
         self.assertEqual(resp['registration'], 'True')
         self.assertEqual(list(resp.keys()), ['registration', 'id'])
         user_profile = UserData.objects.filter(phone='79101111111')
-        self.assertEqual(len(user_profile), 1)
+        self.assertEqual(user_profile.count(), 1)
         self.assertEqual(user_profile[0].status, 'philantropist')
         self.assertEqual(user_profile[0].is_active, False)
 

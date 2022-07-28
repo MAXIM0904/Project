@@ -38,6 +38,10 @@ class TestCreateUser(APITestCase):
         self.assertEqual(resp.status, 'ward')
         self.assertEqual(resp.is_active, False)
 
+        if os.path.exists(f'images/file_user/{file.name}'):
+            os.remove(f'images/file_user/{file.name}')
+
+
     def test_create_user_philantropist_valid(self):
         """
         Тестирование передачи валидных данных philantropist.
@@ -119,6 +123,8 @@ class TestMessageUser(APITestCase):
         self.request = self.factory.get('/accounts/django-superstars/')
         self.request.user = self.user_profile
 
+        if os.path.exists(f'images/file_user/{file.name}'):
+            os.remove(f'images/file_user/{file.name}')
 
     def test_message_user_flag(self):
         """ Тестирование корректности работы функции message_user флаг == '1' """
@@ -175,7 +181,15 @@ class TestMessageUser(APITestCase):
         resp = process._file_save(request=resp_post)
         self.assertEqual(resp, True)
         file_user = FileUser.objects.filter(model_file=self.user_profile)
-        self.assertEqual(len(file_user), 3)
+        self.assertEqual(file_user.count(), 3)
+
+        if os.path.exists(f'images/file_user/{file.name}'):
+            os.remove(f'images/file_user/{file.name}')
+
+        if os.path.exists(f'images/file_user/{file_new.name}'):
+            os.remove(f'images/file_user/{file_new.name}')
+
+
 
     def test_save_data_user(self):
         """ Тест функции изменения данных пользователя """
@@ -197,12 +211,11 @@ class TestMessageUser(APITestCase):
         user_form.is_valid(raise_exception=True)
         process._save_data_user(request=resp_post, user_form=user_form)
         resp = UserData.objects.filter(phone='79101111112')
-        self.assertEqual(len(resp), 1)
-        user = UserData.objects.get(phone='79101111112')
-        self.assertEqual(user.username, '79101111112')
-        self.assertEqual(user.first_name, 'TestFirst_name1')
-        self.assertEqual(user.last_name, 'TestLast_name1')
-        self.assertEqual(user.patronymic, 'TestPatronymic1')
+        self.assertEqual(resp.count(), 1)
+        self.assertEqual(resp[0].username, '79101111112')
+        self.assertEqual(resp[0].first_name, 'TestFirst_name1')
+        self.assertEqual(resp[0].last_name, 'TestLast_name1')
+        self.assertEqual(resp[0].patronymic, 'TestPatronymic1')
 
     def test_delete_img(self):
         """ Тест функции удаления файла """

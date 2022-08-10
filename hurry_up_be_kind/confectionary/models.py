@@ -9,6 +9,9 @@ class Confectionary(models.Model):
     number_phone = models.CharField(max_length=100, verbose_name="Номер телефона кондитерской", null=True, blank=True)
     description_confectionary = models.TextField(verbose_name="Описание", blank=True)
     address_ward = models.TextField(verbose_name="Адрес кондитерской", blank=True)
+    avatar_confectionary = models.ImageField(
+        upload_to="avatar_confectionary/", verbose_name="Аватар кондитерской", null=True, blank=True
+    )
 
     class Meta:
         verbose_name = 'кондитерские'

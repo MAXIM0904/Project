@@ -41,7 +41,6 @@ class TestCreateUser(APITestCase):
         if os.path.exists(f'images/file_user/{file.name}'):
             os.remove(f'images/file_user/{file.name}')
 
-
     def test_create_user_philantropist_valid(self):
         """
         Тестирование передачи валидных данных philantropist.
@@ -188,8 +187,6 @@ class TestMessageUser(APITestCase):
 
         if os.path.exists(f'images/file_user/{file_new.name}'):
             os.remove(f'images/file_user/{file_new.name}')
-
-
 
     def test_save_data_user(self):
         """ Тест функции изменения данных пользователя """

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Личный кабинет кондитерской</title>
+</head>
+<body>
+
+    {% if dict_response %}
+    <p>Аватар:</p>
+
+        {% if dict_response.avatar_confectionary %}
+            <img src="{{dict_response.avatar_confectionary}}" alt="Аватар пользователя" width="200" height="200">
+        {% else %}
+            <img src="../../../static/frontend/images/avatar/Avatar.png" alt="Аватар пользователя по умолчанию" width="200" height="200">
+        {% endif %}
+
+        <form method="post" action="{% url 'hurry_up_be_kind:update_confectionary' %}">
+            {% csrf_token %}
+            <fieldset>
+                <p>Название кондитерской: <input name=confectionary_name size="30" type="text" value="{{dict_response.confectionary_name}}"></p>
+                <p>Номер телефона: <input name=number_phone size="30" type="text" value="{{dict_response.number_phone}}"></p>
+                <p>Описание: <input name=description_confectionary size="30" type="text" value="{{dict_response.description_confectionary}}"></p>
+                <p>Адрес: <input name=address_ward size="30" type="text" value="{{dict_response.address_ward}}"></p>
+            </fieldset>
+            <br>
+            <button type="submit">Изменить данные</button>
+        </form>
+    {% endif %}
+</body>
+</html>

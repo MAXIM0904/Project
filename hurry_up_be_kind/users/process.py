@@ -205,7 +205,7 @@ def _verification_user(user, verification_code):
         if user.status == "ward":
             return {
                 'registration': 'True',
-                'message': 'Дождитесь подтверждения профиля администратором'
+                'message': ' Вы успешно подтвердили номер телефона. Дождитесь подтверждения профиля администратором'
             }
         user.is_active = True
         user.save()

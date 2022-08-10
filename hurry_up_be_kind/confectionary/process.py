@@ -9,10 +9,13 @@ from django.contrib.auth import authenticate
 
 def _confectionary_save(request, confectionary_data):
     """Функция сохранения кондитерской с картинками"""
+
     confectionary_name = ''
     number_phone = ''
     address_ward = ''
     description_confectionary = ''
+    avatar_confectionary = None
+
     if confectionary_data.get('confectionary_name'):
         confectionary_name = confectionary_data['confectionary_name']
     if confectionary_data.get('number_phone'):
@@ -21,13 +24,16 @@ def _confectionary_save(request, confectionary_data):
         address_ward = confectionary_data['address_ward']
     if confectionary_data.get('description_confectionary'):
         description_confectionary = confectionary_data['description_confectionary']
+    if request.FILES:
+        avatar_confectionary = request.FILES['avatar_confectionary']
 
     instance = Confectionary.objects.create(
         director=request.user,
         confectionary_name=confectionary_name,
         number_phone=number_phone,
         address_ward=address_ward,
-        description_confectionary=description_confectionary
+        description_confectionary=description_confectionary,
+        avatar_confectionary=avatar_confectionary
     )
 
     if confectionary_data.get('img_confectionary'):
@@ -71,7 +77,7 @@ def _image_get(instance):
 
 
 def _inf_confectionary(instance):
-    """ Функция возвращает информацию о пользователе адресов картинок пользователя """
+    """ Функция возвращает информацию о кондитерской с картинками """
     inf_confectionary = ConfectionaryAllSerializer(instance)
     inf_confectionary = inf_confectionary.data
     img_confectionary = _image_get(instance=instance)

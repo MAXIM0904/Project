@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение профиля</title>
+</head>
+<body>
+    {{errors}}
+    <form method="post" action="{% url 'hurry_up_be_kind:sms_confirmation' %}">
+        {% csrf_token %}
+        {{form.as_p}}
+    <button type="submit">Отправить</button>
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,18 @@
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Сайт фонда скорей добрей.</h1>
+
+    <h2>Помогать во благо другим и себе</h2>
+
+    <p>Развиваем позитивную благотворительность, раскрывая доброту в каждом</p>
+
+    <form action="{% url 'home_page' %}" method="get" >
+        <button type="submit">Хочу помочь</button>
+    </form>
+
+{% endblock content%}
+
+</body>
+
+</html>

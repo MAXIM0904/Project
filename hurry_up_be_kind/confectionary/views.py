@@ -21,11 +21,11 @@ class RegisterConfectionary(APIView):
                 inf_confectionary = ConfectionaryAllSerializer(user_form)
                 return JsonResponse(inf_confectionary.data)
             else:
-                raise ValueError("You do not have the rights to register a pastry shop")
+                raise ValueError("У вас нет прав на регистрацию кондитерской")
 
         except Exception as error:
             return JsonResponse({'registration': 'error',
-                                 'id': str(error)})
+                                 'id': str(error)}, json_dumps_params={'ensure_ascii': False})
 
 
 class AllConfectionary(ListAPIView):
@@ -52,7 +52,10 @@ class UpdateConfectionary(APIView):
             return JsonResponse(serializer)
 
         else:
-            return JsonResponse({'error': 'Доступ запрещен. Обратитесь к администратору.'})
+            return JsonResponse(
+                {'error': 'Доступ запрещен. Обратитесь к администратору.'},
+                json_dumps_params={'ensure_ascii': False}
+            )
 
 
 class DeleteConfectionary(APIView):
@@ -66,11 +69,14 @@ class DeleteConfectionary(APIView):
                 process._delete_confectionary(request=request)
                 return JsonResponse({'status': 'True'})
             else:
-                return JsonResponse({'error': 'Доступ запрещен. Обратитесь к администратору.'})
+                return JsonResponse(
+                    {'error': 'Доступ запрещен. Обратитесь к администратору.'},
+                    json_dumps_params={'ensure_ascii': False}
+                )
 
         except Exception as error:
             return JsonResponse({'registration': 'error',
-                                 'id': str(error)})
+                                 'id': str(error)}, json_dumps_params={'ensure_ascii': False})
 
 class InfConfectionary(APIView):
     permission_classes = (AllowAny,)
@@ -79,8 +85,8 @@ class InfConfectionary(APIView):
         try:
             instance = request.user.confectionary
             inf_confectionary = process._inf_confectionary(instance=instance)
-            return JsonResponse(inf_confectionary)
+            return JsonResponse(inf_confectionary, json_dumps_params={'ensure_ascii': False})
 
         except Exception as error:
             return JsonResponse({'registration': 'error',
-                                 'id': str(error)})
+                                 'id': str(error)}, json_dumps_params={'ensure_ascii': False})

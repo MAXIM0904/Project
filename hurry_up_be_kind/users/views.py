@@ -5,12 +5,13 @@ from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from django.http import JsonResponse
 from .models import UserData
-from .serializers import  UserUpdateSerializer, AllUserSerializer
+from .serializers import UserUpdateSerializer, AllUserSerializer
 from . import process
+from django.shortcuts import redirect
 
 
 def home_page(request):
-    return render(request, 'templates/homepage.html', {})
+    return redirect('/hurry_up_be_kind/index', permanent=True)
 
 
 class RegistrationUser(APIView):
@@ -22,9 +23,9 @@ class RegistrationUser(APIView):
             create_user = process._create_user(request=request)
         except Exception as error:
             return JsonResponse({'registration': 'error',
-                                 'id': str(error)})
+                                 'id': str(error)}, json_dumps_params={'ensure_ascii': False})
         return JsonResponse({'registration': 'True',
-                             'id': str(create_user.id)})
+                             'id': str(create_user.id)}, json_dumps_params={'ensure_ascii': False})
 
 
 class InfUser(APIView):
@@ -33,7 +34,7 @@ class InfUser(APIView):
 
     def get(self, request):
         context = process._inf_user(request)
-        return JsonResponse(context)
+        return JsonResponse(context, json_dumps_params={'ensure_ascii': False})
 
 
 class UpdateUser(APIView):
@@ -45,7 +46,7 @@ class UpdateUser(APIView):
         user_form.is_valid(raise_exception=True)
         process._save_data_user(request=request, user_form=user_form)
         context = process._inf_user(request)
-        return JsonResponse(context)
+        return JsonResponse(context, json_dumps_params={'ensure_ascii': False})
 
 
 class DeleteUser(APIView):
@@ -91,7 +92,7 @@ class VerificationSms(APIView):
 
         except Exception as error:
             return JsonResponse({'registration': 'error',
-                                 'id': str(error)})
+                                 'id': str(error)}, json_dumps_params={'ensure_ascii': False})
 
 
 class PasswordRecovery(APIView):
@@ -125,4 +126,4 @@ class PasswordRecovery(APIView):
 
         except Exception as error:
             return JsonResponse({'registration': 'error',
-                                 'id': str(error)})
+                                 'id': str(error)}, json_dumps_params={'ensure_ascii': False})

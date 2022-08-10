@@ -15,16 +15,16 @@ class TestFunctions(APITestCase):
         Тестирование перехода на главную страницу сайта urls reverse
         """
         resp = self.client.get(reverse('home_page'))
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'templates/homepage.html')
+        self.assertEqual(resp.status_code, 301)
+
 
     def test_home_page_urls(self):
         """
         Тестирование перехода на главную страницу сайта urls
         """
         resp = self.client.get('/')
-        self.assertEqual(resp.status_code, 200)
-        self.assertTemplateUsed(resp, 'templates/homepage.html')
+        self.assertEqual(resp.status_code, 301)
+
 
 
 class TestRegistrationUser(APITestCase):

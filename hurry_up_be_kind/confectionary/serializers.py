@@ -5,12 +5,13 @@ from .models import Confectionary
 class ConfectionarySerializer(serializers.ModelSerializer):
     ''' Сериализация данных кондитерской '''
 
-    img_confectionary = serializers.ImageField()
+    img_confectionary = serializers.ImageField(required=False)
 
     class Meta:
         model = Confectionary
         fields = ('confectionary_name', 'number_phone', 'description_confectionary',
-                  'address_ward', 'img_confectionary')
+                  'address_ward', 'img_confectionary', 'avatar_confectionary')
+
 
 class ConfectionaryAllSerializer(serializers.ModelSerializer):
     ''' Сериализация данных кондитерской '''
@@ -18,4 +19,4 @@ class ConfectionaryAllSerializer(serializers.ModelSerializer):
     class Meta:
         model = Confectionary
         fields = ('id', 'confectionary_name', 'number_phone', 'description_confectionary',
-                  'address_ward')
+                  'address_ward', 'avatar_confectionary')

@@ -11,9 +11,9 @@ class UserData(AbstractUser):
     3. confectioner - руководитель кондитерской (сети кондитерских).
     """
     STATUS_CHOICES = [
-        ("philantropist", "philantropist"),
-        ("ward", "ward"),
-        ("confectioner", "confectioner"),
+        ("philantropist", "благотворитель"),
+        ("ward", "подопечный"),
+        ("confectioner", "кондитер"),
     ]
 
     phone_regex = RegexValidator(

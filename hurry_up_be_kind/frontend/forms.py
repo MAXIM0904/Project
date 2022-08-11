@@ -1,10 +1,10 @@
-from django import forms #ModelForm, FileField, ClearableFileInput
+from django import forms
 from users.models import UserData
 from confectionary.models import Confectionary
 from django.contrib.auth.forms import UserCreationForm
 
 
-
+# User
 class RegistrationForm(UserCreationForm):
     save_file = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False, label='Загрузка документов',
@@ -23,7 +23,7 @@ class LoggingForm(forms.Form):
     username = forms.CharField(label='Номер телефона', max_length=14, help_text='Формат ввода номера: 79112223344')
     password = forms.CharField(label='Пароль')
 
-
+# Confectionary
 class RegistrationConfectionaryForm(forms.ModelForm):
     avatar_confectionary = forms.ImageField(label='Фото кондитерской', required=False)
 
@@ -32,3 +32,9 @@ class RegistrationConfectionaryForm(forms.ModelForm):
         fields = ('confectionary_name', 'number_phone', 'description_confectionary',
                   'address_ward', 'avatar_confectionary')
 
+# Menu
+class BulkLoadingMenuForm(forms.Form):
+    menu_file = forms.FileField(
+        label='Загрузка меню',
+        help_text='Формат файла для загрузки - .xlsx. Содержание файла строго в соответствии с установленой формой.'
+    )

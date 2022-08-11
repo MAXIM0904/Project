@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Меню</title>
+</head>
+<body>
+<h1>Выбор меню:</h1>
+    <form method="get" action="{% url 'hurry_up_be_kind:menu_list' %}">
+        <button type="submit" name="orderby" value="all_economy_menu">Эконом меню</button>
+        <button type="submit" name="orderby" value="all_optimal_menu">Оптимальное меню</button>
+        <button type="submit" name="orderby" value="all_business_menu">Бизнес</button>
+    </form>
+
+    {% if dict_response %}
+        <hr>
+        {{name_menu}}
+        <hr>
+        {% for cake in dict_response %}
+           <p>Фото торта:</p>
+                {% if cake.img_dish %}
+                    <img src="{{cake.img_dish}}" alt="Аватар пользователя" width="100" height="100">
+                {% else %}
+                    <img src="../../../static/frontend/images/menu/menu.png" alt="Аватар пользователя по умолчанию" width="100" height="100">
+                {% endif %}
+
+            <form method="post" action="#">
+                {% csrf_token %}
+                <p>Название: {{cake.name_dish}}</p>
+                <p>Вес: {{cake.weight_dish}} кг.</p>
+                <p>Цена: {{cake.price_dish}} руб.</p>
+                <p>Описание: {{cake.description_dish}}</p>
+                <p>Состав: {{cake.composition_dish}}</p>
+                <button type="submit">В корзину</button>
+                <hr>
+            </form>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

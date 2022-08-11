@@ -1,6 +1,6 @@
 from django.http import HttpResponseNotFound
 from django.shortcuts import render
-from .forms import RegistrationForm, ConfirmationForm, LoggingForm, RegistrationConfectionaryForm
+from .forms import RegistrationForm, ConfirmationForm, LoggingForm, RegistrationConfectionaryForm, BulkLoadingMenuForm
 from django.shortcuts import redirect
 from . import process
 from . import requests_to_the_server
@@ -35,7 +35,11 @@ def registration(request):
             }
 
             files = request.FILES
-            dict_response = requests_to_the_server.urls_request(key_request='registration', payload=payload, files=files)
+            dict_response = requests_to_the_server.urls_request(
+                key_request='registration',
+                payload=payload,
+                files=files
+            )
 
             if dict_response['registration'] == 'True':
                 response = redirect('/hurry_up_be_kind/sms_confirmation')
@@ -148,6 +152,7 @@ def logging_user(request):
 
 
 def registration_confectionary(request):
+    """Функция регистрации кондитерской"""
     if request.method == "GET":
         form = RegistrationConfectionaryForm()
         return render(request, 'frontend/confectionary/confectionary_registration.html', {'form': form})
@@ -186,10 +191,14 @@ def registration_confectionary(request):
 
             elif 'number_phone' in dict_response.keys():
                 return redirect('/hurry_up_be_kind/pastry_shop_office')
-        return render(request, 'frontend/confectionary/confectionary_registration.html', {'form': form, 'errors':errors})
+        return render(request, 'frontend/confectionary/confectionary_registration.html', {
+            'form': form,
+            'errors': errors
+        })
 
 
 def pastry_shop_office(request):
+    """Функция вывода информации о кондитерской"""
     if request.method == "GET":
         access_token = request.COOKIES.get('access')
         headers = {
@@ -202,7 +211,7 @@ def pastry_shop_office(request):
 
 
 def update_confectionary(request):
-
+    """Функция изменения данных кондитерской"""
     if request.method == "POST":
         access_token = request.COOKIES.get('access')
         headers = {
@@ -218,3 +227,63 @@ def update_confectionary(request):
         dict_response = requests_to_the_server.confectionary_for_html(dict_response)
 
         return render(request, 'frontend/confectionary/pastry_shop_office.html', {'dict_response': dict_response})
+
+
+def menu_list(request):
+    """ Функция вывода меню эконом, оптимального и бизнес """
+    if request.method == "GET":
+        access_token = request.COOKIES.get('access')
+        headers = {
+            'Authorization': f'Token {access_token}'
+        }
+
+        if 'orderby' in request.GET.keys():
+            dict_response = requests_to_the_server.urls_request(key_request=request.GET['orderby'], headers=headers)
+            name_menu = ''
+            if request.GET['orderby'] == 'all_economy_menu':
+                name_menu = 'Экономное меню'
+
+            elif request.GET['orderby'] == 'all_optimal_menu':
+                name_menu = 'Оптимальное меню'
+
+            elif request.GET['orderby'] == 'all_business_menu':
+                name_menu = 'Бизнес меню'
+
+            return render(request, 'frontend/menu/menu_list.html', {
+                'dict_response': dict_response, 'name_menu': name_menu
+            })
+        return render(request, 'frontend/menu/menu_list.html')
+
+
+def bulk_loading_menu(request):
+    """ Функция массового добавления меню """
+    if request.method == "GET":
+        form = BulkLoadingMenuForm()
+        return render(request, 'frontend/menu/bulk_loading_menu.html', {'form': form})
+
+
+    if request.method == "POST":
+        access_token = request.COOKIES.get('access')
+        headers = {
+            'Authorization': f'Token {access_token}'
+        }
+
+        form = BulkLoadingMenuForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            files = request.FILES
+            dict_response = requests_to_the_server.urls_request(
+                key_request='massive_menu_update', headers=headers, files=files
+            )
+
+            if 'registration' in dict_response.keys():
+                if dict_response['registration'] == 'error':
+                    return render(
+                        request, 'frontend/menu/bulk_loading_menu.html', {'form': form, 'dict_response': dict_response}
+                    )
+
+                elif dict_response['registration'] == 'True':
+                    return redirect('/hurry_up_be_kind/register_menu')
+
+        else:
+            return render(request, 'frontend/menu/bulk_loading_menu.html', {'form': form})

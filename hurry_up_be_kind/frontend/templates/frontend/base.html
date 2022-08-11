@@ -25,8 +25,8 @@
             <button type="submit">Личный кабинет</button>
         </form>
 
-        <form method="get" action="{% url 'hurry_up_be_kind:index' %}">
-            <button type="submit">Меню</button>
+        <form method="get" action="{% url 'hurry_up_be_kind:menu_list' %}">
+            <button type="submit" name="orderby" value="all_optimal_menu">Меню</button>
         </form>
 
         <p> Доступны только кондитеру</p>
@@ -36,6 +36,11 @@
 
         <form action="{% url 'hurry_up_be_kind:pastry_shop_office' %}" method="get" >
             <button type="submit">Моя кондитерская</button>
+        </form>
+
+        <p> Доступны только администратору</p>
+        <form action="{% url 'hurry_up_be_kind:bulk_loading_menu' %}" method="get" >
+            <button type="submit">Массовая загрузка меню</button>
         </form>
 
     {% endblock menu %}

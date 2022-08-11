@@ -29,10 +29,20 @@ requests_server = {
         {'title': 'Изменение данных кондитерской', 'urls': f"{base_urls}/confectionary/update_confectionary/", 'method': 'POST'},
 
     # Меню
-    'update_confectionary':
+    'register_menu':
         {'title': 'Типы меню', 'urls': f"{base_urls}/menu/register_menu/", 'method': 'GET'},
 
+    'all_economy_menu':
+        {'title': 'Все позиции экономного меню', 'urls': f"{base_urls}/menu/all_economy_menu/", 'method': 'GET'},
 
+    'all_optimal_menu':
+        {'title': 'Все позиции оптимального меню', 'urls': f"{base_urls}/menu/all_optimal_menu/", 'method': 'GET'},
+
+    'all_business_menu':
+        {'title': 'Все позиции бизнес меню', 'urls': f"{base_urls}/menu/all_business_menu/", 'method': 'GET'},
+
+    'massive_menu_update':
+        {'title': 'Массовое добавление меню', 'urls': f"{base_urls}/menu/massive_menu_update/", 'method': 'POST'},
 
 
     # 'token_update':

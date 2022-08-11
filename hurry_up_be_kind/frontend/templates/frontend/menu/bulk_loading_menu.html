@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Массовая загрузка меню</title>
+</head>
+<body>
+    <h1> Массовая загрузка меню через файл </h1>
+    {{dict_response}}
+    <form method="post" enctype="multipart/form-data" action="{% url 'hurry_up_be_kind:bulk_loading_menu' %}">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Отправить</button>
+
+    </form>
+
+</body>
+</html>

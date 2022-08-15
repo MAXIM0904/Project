@@ -4,6 +4,7 @@ import json
 base_urls = 'http://127.0.0.1:8000'
 
 requests_server = {
+    #Users
     'registration':
         {'title': 'Запрос на регистрацию', 'urls': f"{base_urls}/registration_user/", 'method': 'POST'},
 
@@ -19,6 +20,10 @@ requests_server = {
     'logging':
         {'title': 'Вход в учетную запись', 'urls': f"{base_urls}/api/token/", 'method': 'POST'},
 
+    'all_ward':
+        {'title': 'Список всех подопечных', 'urls': f"{base_urls}/all_ward/", 'method': 'GET'},
+
+    # Confectionary
     'register_confectionary':
         {'title': 'Регистрация кондитерской', 'urls': f"{base_urls}/confectionary/register_confectionary/", 'method': 'POST'},
 
@@ -28,7 +33,10 @@ requests_server = {
     'update_confectionary':
         {'title': 'Изменение данных кондитерской', 'urls': f"{base_urls}/confectionary/update_confectionary/", 'method': 'POST'},
 
-    # Меню
+    'all_confectionary':
+        {'title': 'Список всех кондитерских', 'urls': f"{base_urls}/confectionary/all_confectionary/", 'method': 'GET'},
+
+    # Menu
     'register_menu':
         {'title': 'Типы меню', 'urls': f"{base_urls}/menu/register_menu/", 'method': 'GET'},
 
@@ -43,6 +51,27 @@ requests_server = {
 
     'massive_menu_update':
         {'title': 'Массовое добавление меню', 'urls': f"{base_urls}/menu/massive_menu_update/", 'method': 'POST'},
+
+    # Order
+
+    'order':
+        {'title': 'Добавление в корзину', 'urls': f"{base_urls}/business/create_order/", 'method': 'POST'},
+
+    'update_order':
+        {'title': 'Изменение данных корзины', 'urls': f"{base_urls}/business/update_order/", 'method': 'PATCH'},
+
+    'payment':
+        {'title': 'Оплата заказа', 'urls': f"{base_urls}/business/payment/", 'method': 'POST'},
+
+    'all_order':
+        {'title': 'Все заказы в корзине', 'urls': f"{base_urls}/business/all_order/", 'method': 'GET'},
+
+    'all_order_confectionary':
+        {'title': 'Все заказы в кондитерской', 'urls': f"{base_urls}/business/all_order_confectionary/", 'method': 'GET'},
+
+    'execute_an_order':
+        {'title': 'Выполнение заказа кондитерской', 'urls': f"{base_urls}/business/execute_an_order/", 'method': 'POST'},
+
 
 
     # 'token_update':
@@ -59,8 +88,6 @@ requests_server = {
     # 'all users':
     #     {'title': 'Список всех пользователей', 'urls': f"{base_urls}all_user/", 'method': 'GET'},
     #
-    # 'all_ward':
-    #     {'title': 'Список всех подопечных', 'urls': f"{base_urls}all_ward/", 'method': 'GET'},
     #
     # 'all_philantropist':{
     #     'title': 'Список всех благотворителей(филантропов)', 'urls': f"{base_urls}all_philantropist/", 'method': 'GET'

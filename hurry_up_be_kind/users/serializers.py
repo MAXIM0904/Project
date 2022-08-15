@@ -28,6 +28,5 @@ class AllUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserData
-        fields = ('first_name', 'last_name', 'patronymic', 'phone', 'email', 'address_ward', 'about_me',
+        fields = ('id', 'first_name', 'last_name', 'patronymic', 'phone', 'email', 'address_ward', 'about_me',
                   'status', 'size_donations', 'avatar_user')
-

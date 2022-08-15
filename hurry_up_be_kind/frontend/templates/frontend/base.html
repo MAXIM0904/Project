@@ -29,9 +29,17 @@
             <button type="submit" name="orderby" value="all_optimal_menu">Меню</button>
         </form>
 
+        <form action="{% url 'hurry_up_be_kind:all_order' %}" method="get" >
+            <button type="submit">Моя корзина</button>
+        </form>
+
         <p> Доступны только кондитеру</p>
         <form action="{% url 'hurry_up_be_kind:registration_confectionary' %}" method="get" >
             <button type="submit">Регистрация кондитерской</button>
+        </form>
+
+        <form action="{% url 'hurry_up_be_kind:all_order_confectionary' %}" method="get" >
+            <button type="submit">Заказы кондитерской</button>
         </form>
 
         <form action="{% url 'hurry_up_be_kind:pastry_shop_office' %}" method="get" >

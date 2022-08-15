@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Все подопечные</title>
+</head>
+<body>
+    {% if dict_response %}
+        {% for user_profile in dict_response %}
+            <form method="post" action="{% url 'hurry_up_be_kind:update_order' %}">
+                {% csrf_token %}
+                <p>Фамилия: {{user_profile.last_name}}</p>
+                <p>Имя: {{user_profile.first_name}}</p>
+                <p>Отчество: {{user_profile.patronymic}}</p>
+                <p>Номер телефона: {{user_profile.phone}}</p>
+                <p>Электронная почта: {{user_profile.email}}</p>
+                <p>Адрес: {{user_profile.address_ward}}</p>
+                <p>Обо мне: {{user_profile.about_me}}</p>
+
+                <input type="hidden"  name="order_id" value={{order_id}}>
+                <input type="hidden"  name="user_ward_id" value={{user_profile.id}}>
+                <button type="submit">Выбрать подопечного</button>
+                <hr>
+            </form>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+</head>
+<body>
+    <h1>Ваш заказ:</h1>
+
+        <p>Товар: {{dict_response.product_id.name_dish}}</p>
+        <p>Цена: {{dict_response.product_id.price_dish}} руб.</p>
+        <p>Количество: {{dict_response.count_menu}}</p>
+
+        {% if dict_response.user_philantropist_id %}
+            <p>Благотворитель: {{dict_response.user_philantropist_id.usermane}}</p>
+
+        {%else%}
+            <p>Благотворитель скоро будет найден.</p>
+        {%endif%}
+
+
+        {% if dict_response.user_ward_id %}
+            <p>Заказ сформирован для: {{dict_response.user_ward_id.usermane}}</p>
+
+        {%else%}
+            <form method="POST" action="{% url 'hurry_up_be_kind:all_ward' %}">
+                {% csrf_token %}
+                <p>Необходимо добавить подопечного:
+                <button type="submit" name="order_id" value={{dict_response.id}}>Добавить подопечного</button>
+                </p>
+            </form>
+        {%endif%}
+
+        {% if dict_response.confectionary_id %}
+            <p>Заказ будет выполнять кондитерская: '{{dict_response.confectionary_id.usermane}}', расположенная
+                по адресу: {{dict_response.confectionary_id.address_ward}}</p>
+
+        {%else%}
+            <form method="POST" action="{% url 'hurry_up_be_kind:all_confectionary' %}">
+                {% csrf_token %}
+                <p>Необходимо добавить кондитерскую:
+                <button type="submit" name="order_id" value={{dict_response.id}}>Добавить кондитерскую</button>
+                </p>
+            </form>
+        {%endif%}
+        <p>Общая стоимость заказа: {{dict_response.price_order}}</p>
+
+        {% if dict_response.order_status in 'formed' %}
+            <form method="POST" action="{% url 'hurry_up_be_kind:payment' %}">
+                {% csrf_token %}
+                <p>Заказ сформирован:
+                    <input type="hidden"  name="order_id" value={{dict_response.id}}>
+                <button type="submit">Оплатить</button>
+                </p>
+            </form>
+        {% elif dict_response.order_status in 'paid_for' %}
+            <h2>Заказ оплачен</h2>
+        {%endif%}
+</body>
+</html>

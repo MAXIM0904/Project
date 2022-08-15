@@ -4,16 +4,18 @@ from users.models import UserData
 from menu.models import Menu
 from confectionary.models import Confectionary
 
+STATUS_ORDER = [
+    ("generated", "создан"),
+    ("paid_for", "оплачен"),
+    ("formed", "сформирован"),
+    ("desire_ward", "желание подопечного"),
+    ("admitted", "принят"),
+    ("completed", "выполнен"),
+    ("archive", "архивный"),
+]
 
 class Order(models.Model):
     """ Модель корзины пользователя """
-    STATUS_ORDER = [
-        ("generated", "generated"), #создан
-        ("paid_for", "paid_for"), #оплачен
-        ("admitted", "admitted"), #принят
-        ("completed", "completed"), #выполнен
-        ("archive", "archive"), #архивный
-        ]
     user_philantropist_id = models.ForeignKey(UserData, on_delete=models.SET_NULL, null=True, related_name="user_philantropist")
     confectionary_id = models.ForeignKey(Confectionary, on_delete=models.SET_NULL, null=True, related_name="user_confectioner")
     user_ward_id = models.ForeignKey(UserData, on_delete=models.SET_NULL, null=True, related_name="user_ward")
@@ -31,45 +33,43 @@ class Order(models.Model):
         return str(self.count_menu)
 
 
-class WishesWard(models.Model):
-    """ Модель для размещения желания подопечным """
-    STATUS_WISHES = [
-        ("posted", "posted"), #размещен
-        ("taken", "taken"), #взят
-        ]
-    ward = models.ForeignKey(UserData, on_delete=models.SET_NULL, null=True, related_name="ward")
-    product = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, related_name='product')
-    confectionary = models.ForeignKey(Confectionary, on_delete=models.SET_NULL, null=True, related_name="confectionary")
-    count_product = models.IntegerField(verbose_name="Количество блюд", default=1)
-    order_wishes = models.CharField(max_length=200, choices=STATUS_WISHES, default='posted',
-                                    verbose_name="Статус заказа")
+class OrderExecution(models.Model):
+    order_execution = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_execution")
+    order_status_execution = models.CharField(max_length=200, choices=STATUS_ORDER, default='paid_for', verbose_name="Статус заказа")
 
-    class Meta:
-        verbose_name = 'Желания'
-        verbose_name_plural = 'Желание подопечного'
-
-    def __str__(self):
-        return str(self.ward)
-
-
-class OrderTaken(models.Model):
-    """ Модель для взятия желания """
-    STATUS_ORDER = [
-        ("generated", "generated"), #создан
-        ("admitted", "admitted"),  # принят
-        ("paid_for", "paid_for"), #оплачен
-        ("completed", "completed"), #выполнен
-        ("archive", "archive"), #архивный
-        ]
-    user_philantropist_id = models.ForeignKey(UserData, on_delete=models.SET_NULL, null=True,
-                                              related_name="user_philantropist_id")
-    wishes_ward_id = models.ForeignKey(WishesWard, on_delete=models.SET_NULL, null=True, related_name="wishes_ward_id")
-    order_status = models.CharField(max_length=200, choices=STATUS_ORDER, default='generated',
-                                    verbose_name="Статус заказа")
-
-    class Meta:
-        verbose_name = 'Взятые заказы'
-        verbose_name_plural = 'Взятые заказы'
-
-    def __str__(self):
-        return str(self.user_philantropist_id)
+# class WishesWard(models.Model):
+#     """ Модель для размещения желания подопечным """
+#     STATUS_WISHES = [
+#         ("posted", "posted"), #размещен
+#         ("taken", "taken"), #взят
+#         ]
+#     ward = models.ForeignKey(UserData, on_delete=models.SET_NULL, null=True, related_name="ward")
+#     product = models.ForeignKey(Menu, on_delete=models.SET_NULL, null=True, related_name='product')
+#     confectionary = models.ForeignKey(Confectionary, on_delete=models.SET_NULL, null=True, related_name="confectionary")
+#     count_product = models.IntegerField(verbose_name="Количество блюд", default=1)
+#     order_wishes = models.CharField(max_length=200, choices=STATUS_WISHES, default='posted',
+#                                     verbose_name="Статус заказа")
+#
+#     class Meta:
+#         verbose_name = 'Желания'
+#         verbose_name_plural = 'Желание подопечного'
+#
+#     def __str__(self):
+#         return str(self.ward)
+#
+#
+# class OrderTaken(models.Model):
+#     """ Модель для взятия желания """
+#
+#     user_philantropist_id = models.ForeignKey(UserData, on_delete=models.SET_NULL, null=True,
+#                                               related_name="user_philantropist_id")
+#     wishes_ward_id = models.ForeignKey(WishesWard, on_delete=models.SET_NULL, null=True, related_name="wishes_ward_id")
+#     order_status = models.CharField(max_length=200, choices=STATUS_ORDER, default='generated',
+#                                     verbose_name="Статус заказа")
+#
+#     class Meta:
+#         verbose_name = 'Взятые заказы'
+#         verbose_name_plural = 'Взятые заказы'
+#
+#     def __str__(self):
+#         return str(self.user_philantropist_id)

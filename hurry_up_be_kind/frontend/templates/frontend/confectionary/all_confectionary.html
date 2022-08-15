@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Все кондитерские</title>
+</head>
+<body>
+    {% if dict_response %}
+    <h1>Выберите кондитерскую:</h1>
+    <hr>
+        {% for confectionary in dict_response %}
+            <form method="post" action="{% url 'hurry_up_be_kind:update_order' %}">
+                {% csrf_token %}
+                    <p>Название кондитерской: {{confectionary.confectionary_name}}
+                    <p>Номер телефона: {{confectionary.number_phone}}
+                    <p>Описание: {{confectionary.description_confectionary}}
+                    <p>Адрес: {{confectionary.address_ward}}
+                <input type="hidden"  name="order_id" value={{order_id}}>
+                <input type="hidden"  name="confectionary_id" value={{confectionary.id}}>
+                <button type="submit">Выбрать</button>
+                <hr>
+            </form>
+        {% endfor %}
+    {%else%}
+        <p>Зарегистрированных кондитерских нет!</p>
+    {% endif %}
+</body>
+</html>

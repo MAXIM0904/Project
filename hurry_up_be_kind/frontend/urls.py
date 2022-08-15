@@ -29,4 +29,5 @@ urlpatterns = [
     path('all_order/', views.all_order, name='all_order'),
     path('all_order_confectionary/', views.all_order_confectionary, name='all_order_confectionary'),
     path('execute_an_order/', views.execute_an_order, name='execute_an_order'),
+    path('all_desire_ward/', views.all_desire_ward, name='all_desire_ward'),
 ]

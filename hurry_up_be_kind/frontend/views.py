@@ -345,6 +345,8 @@ def update_order(request):
         }
 
         payload = request.POST
+        print('89809890')
+        print(payload)
 
         dict_response = requests_to_the_server.urls_request(
             key_request='update_order', headers=headers, payload=payload
@@ -392,6 +394,18 @@ def all_order_confectionary(request):
         return render(request, 'frontend/business/all_order_confectionary.html', {'dict_response': dict_response})
 
 
+def all_desire_ward(request):
+    '''Функция возвращает все заказы кондитерской'''
+    if request.method == "GET":
+        access_token = request.COOKIES.get('access')
+        headers = {
+            'Authorization': f'Token {access_token}'
+        }
+
+        dict_response = requests_to_the_server.urls_request(key_request='all_desire_ward', headers=headers)
+        return render(request, 'frontend/business/desire_ward.html', {'dict_response': dict_response})
+
+
 def execute_an_order(request):
     """Функция позволяет поставить статус заказа - выполнен """
     if request.method == "POST":
@@ -399,7 +413,6 @@ def execute_an_order(request):
         headers = {
             'Authorization': f'Token {access_token}'
         }
-        print('99098779879988870')
         payload = request.POST
 
         dict_response = requests_to_the_server.urls_request(

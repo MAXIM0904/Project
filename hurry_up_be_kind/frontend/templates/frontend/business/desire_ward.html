@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Корзина</title>
+</head>
+<body>
+    <h1>Ваш заказ:</h1>
+
+    {% if dict_response %}
+        {%for order in dict_response%}
+            <p>Товар: {{order.product_id.name_dish}}</p>
+            <p>Цена: {{order.product_id.price_dish}} руб.</p>
+            <p>Количество: {{order.count_menu}}</p>
+            <p>Заказ сформирован для: {{order.user_ward_id.usermane}}</p>
+            <p>Заказ будет выполнять кондитерская: '{{order.confectionary_id.usermane}}', расположенная
+                    по адресу: {{order.confectionary_id.address_ward}}</p>
+
+            {% if order.user_philantropist_id %}
+                <p>Благотворитель: {{order.user_philantropist_id.usermane}}</p>
+
+            {%else%}
+                <form method="POST" action="{% url 'hurry_up_be_kind:update_order' %}">
+                    {% csrf_token %}
+                    <p>
+                        <input type="hidden"  name="order_id" value={{order.id}}>
+                        <input type="hidden"  name="user_philantropist_id" value=True>
+                        <button type="submit">Подарить</button>
+                    </p>
+                </form>
+            {%endif%}
+
+            {% if order.order_status in 'formed' %}
+                <form method="POST" action="{% url 'hurry_up_be_kind:payment' %}">
+                    {% csrf_token %}
+                    <p>Заказ сформирован:
+                        <input type="hidden"  name="order_id" value={{order.id}}>
+                    <button type="submit">Оплатить</button>
+                    </p>
+                </form>
+            {% elif order.order_status in 'paid_for' %}
+                <h2>Заказ оплачен</h2>
+            {% endif %}
+            <hr>
+        {% endfor %}
+    {% else %}
+        <p>Заказов нет</p>
+    {% endif %}
+</body>
+</html>

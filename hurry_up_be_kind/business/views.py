@@ -132,19 +132,6 @@ from menu.models import Menu
 #             instanse_list.append(instance)
 #         return JsonResponse(instanse_list, json_dumps_params={'ensure_ascii': False})
 
-class AllDesireWard(ListAPIView):
-    """ Класс предоставляет данные о желании подопечных """
-    permission_classes = (IsAuthenticated,)
-
-    def list(self, request, *args, **kwargs):
-        queryset = Order.objects.filter(order_status="desire_ward")
-        instanse_list = []
-        for inf_wishes in queryset:
-            instance = process.inf_order(order=inf_wishes)
-            instanse_list.append(instance)
-        return JsonResponse(instanse_list, json_dumps_params={'ensure_ascii': False})
-
-
 class CreateOrder(APIView):
     """Класс добавления в корзину"""
     permission_classes = (IsAuthenticated,)
@@ -188,11 +175,17 @@ class UpdateOrder(APIView):
     """Класс изменения корзины"""
     permission_classes = (IsAuthenticated,)
 
-    def patch(self, request, *args, **kwargs):
+    def patch(self, request):
         model_object = Order.objects.get(id=request.POST['order_id'])
-        serializer = OrderSerializer(model_object, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
+        print(request.POST)
+        if 'user_philantropist_id' in list(request.POST):
+            if request.POST['user_philantropist_id']:
+                model_object.user_philantropist_id = request.user
+                model_object.save()
+        else:
+            serializer = OrderSerializer(model_object, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
         process.status_order(order=model_object)
         order = process.inf_order(order=model_object, status=request.user.status)
         return JsonResponse(order, json_dumps_params={'ensure_ascii': False})
@@ -219,8 +212,6 @@ class AllOrder(ListAPIView):
             queryset = Order.objects.filter(user_ward_id=request.user)
         if request.user.status in ['philantropist', 'confectioner']:
             queryset = Order.objects.filter(user_philantropist_id=request.user)
-        # if request.user.status in 'confectioner':
-        #     queryset = Order.objects.filter(confectionary_id=request.user.confectionary)
 
         instanse_list = []
 
@@ -251,9 +242,21 @@ class ExecuteAnOrder(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
-        print('8897887887978')
-        print(request.POST)
         instanse_order = Order.objects.get(id=request.POST['order_id'])
         instanse_order.order_status = 'completed'
         instanse_order.save()
         return JsonResponse({'status': "True"})
+
+
+class AllDesireWard(ListAPIView):
+    """ Класс предоставляет данные о желании подопечных """
+    permission_classes = (IsAuthenticated,)
+
+    def list(self, request, *args, **kwargs):
+        queryset = Order.objects.filter(order_status="desire_ward")
+        instanse_list = []
+        for inf_wishes in queryset:
+            instance = process.inf_order(order=inf_wishes, status=request.user.status)
+            instanse_list.append(instance)
+
+        return JsonResponse(instanse_list, safe=False)

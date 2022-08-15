@@ -72,6 +72,8 @@ requests_server = {
     'execute_an_order':
         {'title': 'Выполнение заказа кондитерской', 'urls': f"{base_urls}/business/execute_an_order/", 'method': 'POST'},
 
+    'all_desire_ward':
+        {'title': 'Все желания подопечного', 'urls': f"{base_urls}/business/all_desire_ward/", 'method': 'GET'},
 
 
     # 'token_update':

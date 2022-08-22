@@ -58,6 +58,5 @@ def preparation_for_html(dict_response):
     }
     status = dict_response['status']
     dict_response['status'] = user_status[status]
-    dict_response['status'] = f''
 
     return dict_response

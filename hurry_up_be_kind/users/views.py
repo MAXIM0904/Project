@@ -55,7 +55,7 @@ class DeleteUser(APIView):
 
     def get(self, request):
         process._delete_user(request)
-        return JsonResponse({'status': True})
+        return JsonResponse({'status': 'True'})
 
 
 class AllUsers(ListAPIView):

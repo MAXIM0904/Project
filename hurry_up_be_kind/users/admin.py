@@ -19,7 +19,7 @@ class UserDataAdmin(admin.ModelAdmin):
     inlines = [
         AdminFileUser,
     ]
-    list_display = ('get_avatar_user', 'author_username', 'first_name', 'last_name', 'patronymic', 'email', 'address_ward',
+    list_display = ('get_avatar_user', 'author_username', 'first_name', 'patronymic', 'last_name',  'email', 'address_ward',
                     'about_me', 'status', 'is_active', )
     list_display_links = ('get_avatar_user', 'author_username')
     list_filter = ('status', 'is_active')

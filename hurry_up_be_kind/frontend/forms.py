@@ -6,6 +6,11 @@ from django.contrib.auth.forms import UserCreationForm
 
 # User
 class RegistrationForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super(RegistrationForm, self).__init__(*args, **kwargs)
+        self.fields('status').empty_label = "Категория не выбрана"
+
+
     save_file = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False, label='Загрузка документов',
         help_text='Поле обязательно, если Вы регистрируетесь как "Подопечный"'

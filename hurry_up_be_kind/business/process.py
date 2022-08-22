@@ -1,25 +1,4 @@
-# from confectionary.models import Confectionary
-# from .models import WishesWard
-# from users.models import UserData
-# from .serializers import InfoWishesWardSerializer
-# from menu.models import Menu
 
-
-# def _order_save(request, order_data):
-#     product_id = order_data['product']
-#     count_product = order_data['count_product']
-#     confectionary = order_data['confectionary']
-#     instance = WishesWard.objects.create(
-#         ward=request.user,
-#         product=product_id,
-#         count_product=count_product,
-#         confectionary=confectionary,
-#     )
-#
-#     form = InfoWishesWardSerializer(instance)
-#     return form
-#
-#
 def _inf_user_data(id_user):
     inf_user = {
         'id': id_user.id,

@@ -1,7 +1,7 @@
 import requests
 import json
 
-base_urls = 'http://127.0.0.1:8000'
+base_urls = 'http://dvdvdvgk.beget.tech'
 
 requests_server = {
     #Users

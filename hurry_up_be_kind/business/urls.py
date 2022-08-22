@@ -5,13 +5,6 @@ app_name = 'business'
 
 
 urlpatterns = [
-    # path('wishes_ward_create/', views.WishesWardCreate.as_view(), name='wishes_ward_create'),
-    # path('all_wishes_ward/', views.AllWishesWard.as_view(), name='all_wishes_ward'),
-    # path('delete_wishes_ward/', views.DeleteWishesWard.as_view(), name='delete_wishes_ward'),
-    # path('order_taken/', views.OrderTakenUser.as_view(), name='order_taken'),
-    # path('my_order_taken/', views.MyOrderTaken.as_view(), name='my_order_taken'),
-    # path('order_payment/', views.OrderPayment.as_view(), name='order_payment'),
-    # path('make_gift/', views.MakeGift.as_view(), name='make_gift'),
     #Order
     path('create_order/', views.CreateOrder.as_view(), name='create_order'),
     path('update_order/', views.UpdateOrder.as_view(), name='update_order'),

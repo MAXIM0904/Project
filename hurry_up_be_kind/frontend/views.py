@@ -2,7 +2,6 @@ from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from .forms import RegistrationForm, ConfirmationForm, LoggingForm, RegistrationConfectionaryForm, BulkLoadingMenuForm
 from django.shortcuts import redirect
-from . import process
 from . import requests_to_the_server
 
 
@@ -66,9 +65,8 @@ def sms_confirmation(request):
         if id_user is None:
             return HttpResponseNotFound('Все сломалось. А должна быть функция отправки повторного кода подтверждения.')
 
-        payload = {'id': id_user,
-                   'verification_code': request.POST['verification_code'],
-                   }
+        payload = {'id': id_user, 'verification_code': request.POST['verification_code']}
+
         dict_response = requests_to_the_server.urls_request(key_request='sms_confirmation', payload=payload)
 
         if 'refresh' in dict_response.keys():
@@ -314,7 +312,7 @@ def bulk_loading_menu(request):
                     )
 
                 elif dict_response['registration'] == 'True':
-                    return redirect('/hurry_up_be_kind/register_menu')
+                    return redirect('/hurry_up_be_kind/menu_list')
 
         else:
             return render(request, 'frontend/menu/bulk_loading_menu.html', {'form': form})

@@ -18,10 +18,12 @@ urlpatterns = [
     path('registration_confectionary/', views.registration_confectionary, name='registration_confectionary'),
     path('pastry_shop_office/', views.pastry_shop_office, name='pastry_shop_office'),
     path('update_confectionary/', views.update_confectionary, name='update_confectionary'),
+    path('all_confectionary/', views.all_confectionary, name='all_confectionary'),
+
     #menu
     path('bulk_loading_menu/', views.bulk_loading_menu, name='bulk_loading_menu'),
     re_path('menu_list/[^\s]*', views.menu_list, name='menu_list'),
-    path('all_confectionary/', views.all_confectionary, name='all_confectionary'),
+
     #order
     path('order/', views.order, name='order'),
     path('update_order/', views.update_order, name='update_order'),

@@ -1,4 +1,6 @@
 from django import forms
+
+from hurry_up_be_kind import settings
 from users.models import UserData
 from confectionary.models import Confectionary
 from django.contrib.auth.forms import UserCreationForm
@@ -8,7 +10,12 @@ from django.contrib.auth.forms import UserCreationForm
 class RegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        self.fields('status').empty_label = "Категория не выбрана"
+        print(dir(self.fields['status']))
+        print('09')
+        print(self.fields['status'].valid_value)
+        self.fields['status'].choices[0] = ('', 'Категория не выбрана')
+        print(settings.ALLOWED_HOSTS)
+
 
 
     save_file = forms.FileField(

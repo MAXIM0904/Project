@@ -1,11 +1,13 @@
 import os.path
 from .models import UserData, FileUser
 from rest_framework_simplejwt.tokens import RefreshToken
+from hurry_up_be_kind.settings import MEDIA_URL
 from .serializers import UserRegistrationSerializer
 from .forms import FileForm
 from random import randint
 import requests
 import json
+
 
 
 def _create_user(request):
@@ -112,7 +114,7 @@ def _file_get(request):
     list_files = []
     file_user = request.user.model_file.all()
     for i_file in file_user:
-        list_files.append(f'{i_file}')
+        list_files.append(f'{request._current_scheme_host}{MEDIA_URL}{i_file}')
     return list_files
 
 
@@ -127,7 +129,7 @@ def _inf_user(request):
                'email': request.user.email,
                'address_ward': request.user.address_ward,
                'about_me': request.user.about_me,
-               'avatar_user': str(request.user.avatar_user),
+               'avatar_user': f"{request._current_scheme_host}{request.user.avatar_user.url}",
                'link_user_files': file_user,
                'status': status,
                }

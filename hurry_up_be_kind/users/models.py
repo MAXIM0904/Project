@@ -17,7 +17,7 @@ class UserData(AbstractUser):
     ]
 
     phone_regex = RegexValidator(
-        regex=r'^\+?1?\d{9,12}$',
+        regex=r'^[7]\d{9,12}$',
         message="Номер телефона должен быть введен в формате: '79101111111'. Допускается до 12 цифр."
     )
     phone = models.CharField(('Номер телефона'), validators=[phone_regex], max_length=17)

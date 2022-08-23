@@ -1,4 +1,6 @@
+from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.views import PasswordChangeView
 from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
@@ -127,3 +129,22 @@ class PasswordRecovery(APIView):
         except Exception as error:
             return JsonResponse({'registration': 'error',
                                  'id': str(error)}, json_dumps_params={'ensure_ascii': False})
+
+
+class PasswordReplacement(APIView):
+    """ Класс замены пароля """
+
+    permission_classes = (IsAuthenticated,)
+
+    def patch(self, request):
+        new_password = request.data['new_password']
+        password = request.data['password']
+        if request.user.check_password(raw_password=password):
+            password = make_password(password=new_password, salt=None, hasher='default')
+            request.user.password = password
+            request.user.save()
+            return JsonResponse({'registration': 'True',
+                                 'id': 'Пароль изменен'}, json_dumps_params={'ensure_ascii': False})
+
+        return JsonResponse({'registration': 'False',
+                             'id': 'Действующий пароль введен неверно.'}, json_dumps_params={'ensure_ascii': False})

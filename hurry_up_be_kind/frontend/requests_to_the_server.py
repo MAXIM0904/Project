@@ -1,7 +1,7 @@
 import requests
 import json
 
-base_urls = 'http://dvdvdvgk.beget.tech'
+base_urls =  'http://127.0.0.1:8000' #'http://dvdvdvgk.beget.tech'
 
 requests_server = {
     #Users
@@ -17,11 +17,17 @@ requests_server = {
     'changing_data':
         {'title': 'Изменение данных', 'urls': f"{base_urls}/update_user/", 'method': 'PATCH'},
 
+    'all_ward':
+        {'title': 'Список всех подопечных', 'urls': f"{base_urls}/all_ward/", 'method': 'GET'},
+
+
+    # Token
+    'token_update':
+        {'title': 'Обновление токена', 'urls': f"{base_urls}/api/token/refresh/", 'method': 'POST'},
+
     'logging':
         {'title': 'Вход в учетную запись', 'urls': f"{base_urls}/api/token/", 'method': 'POST'},
 
-    'all_ward':
-        {'title': 'Список всех подопечных', 'urls': f"{base_urls}/all_ward/", 'method': 'GET'},
 
     # Confectionary
     'register_confectionary':
@@ -35,6 +41,7 @@ requests_server = {
 
     'all_confectionary':
         {'title': 'Список всех кондитерских', 'urls': f"{base_urls}/confectionary/all_confectionary/", 'method': 'GET'},
+
 
     # Menu
     'register_menu':
@@ -52,8 +59,8 @@ requests_server = {
     'massive_menu_update':
         {'title': 'Массовое добавление меню', 'urls': f"{base_urls}/menu/massive_menu_update/", 'method': 'POST'},
 
-    # Order
 
+    # Order
     'order':
         {'title': 'Добавление в корзину', 'urls': f"{base_urls}/business/create_order/", 'method': 'POST'},
 
@@ -76,10 +83,7 @@ requests_server = {
         {'title': 'Все желания подопечного', 'urls': f"{base_urls}/business/all_desire_ward/", 'method': 'GET'},
 
 
-    # 'token_update':
-    #     {'title': 'Обновление токена', 'urls': f"{base_urls}api/token/refresh/", 'method': 'POST'},
-    #
-    #
+
     # 'password recovery':{
     #     'title': 'Список всех благотворителей(филантропов)', 'urls': f"{base_urls}password_recovery/", 'method': 'POST'
     # },

@@ -78,6 +78,7 @@ class DeleteConfectionary(APIView):
             return JsonResponse({'registration': 'error',
                                  'id': str(error)}, json_dumps_params={'ensure_ascii': False})
 
+
 class InfConfectionary(APIView):
     permission_classes = (AllowAny,)
 

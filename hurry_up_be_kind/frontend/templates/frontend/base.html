@@ -1,62 +1,87 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>{{ title }}</title>
-    <link type="text/css" href="{% static 'frontend/css/styles.css' %}" rel="stylesheet" />
-
+    <title>{{title}}</title>
+    <meta name="yandex-verification" content="39db24ee071ca394" />
+    {% block head %}
+    <link type="text/css" href="../../../static/frontend/css/base_pattern/normalize.css" rel="stylesheet" />
+    <link type="text/css" href="../../../static/frontend/css/base_pattern/styles.css" rel="stylesheet" />
+    {% endblock head %}
 </head>
 
 <body>
-    {{errors}}
-    {% block menu %}
-        <br>
-        <form method="get" action="{% url 'hurry_up_be_kind:registration' %}">
-            <button type="submit">Регистрация</button>
-        </form>
+    <div class="container_block_menu">
+        {% block menu %}
+            <a class="index_link_logo" href="{% url 'hurry_up_be_kind:index' %}">
+                <img class="index_logo" src="../../../static/frontend/images/Логотип фонда.PNG" alt="Логотип Фонда 'Скорей Добрей'">
+            </a>
 
-        <form method="get" action="{% url 'hurry_up_be_kind:logging_user' %}">
-            <button type="submit">Вход</button>
-        </form>
-
-        <p> Доступны после регистрации или ввода пароля и логина </p>
-        <form method="get" action="{% url 'hurry_up_be_kind:getting_your_data' %}">
-            <button type="submit">Личный кабинет</button>
-        </form>
-
-        <form method="get" action="{% url 'hurry_up_be_kind:menu_list' %}">
-            <button type="submit" name="orderby" value="all_optimal_menu">Меню</button>
-        </form>
-
-        <form action="{% url 'hurry_up_be_kind:all_order' %}" method="get" >
-            <button type="submit">Моя корзина</button>
-        </form>
-
-        <p> Доступны только кондитеру</p>
-        <form action="{% url 'hurry_up_be_kind:registration_confectionary' %}" method="get" >
-            <button type="submit">Регистрация кондитерской</button>
-        </form>
-
-        <form action="{% url 'hurry_up_be_kind:all_order_confectionary' %}" method="get" >
-            <button type="submit">Заказы кондитерской</button>
-        </form>
-
-        <form action="{% url 'hurry_up_be_kind:pastry_shop_office' %}" method="get" >
-            <button type="submit">Моя кондитерская</button>
-        </form>
-
-        <p> Доступны только администратору</p>
-        <form action="{% url 'hurry_up_be_kind:bulk_loading_menu' %}" method="get" >
-            <button type="submit">Массовая загрузка меню</button>
-        </form>
-
-    {% endblock menu %}
-
-    {% block content %}
-    {% endblock content%}
+        <div class="container_menu">
+                {% for i_menu in menu %}
+                        <a class="index_menu" href="{% url i_menu.url_name %}">{{i_menu.title}}</a>
+                {% endfor %}
+        </div>
+        {% endblock menu %}
+    
+    </div>
 
 
+<!--        <form method="get" action="{% url 'hurry_up_be_kind:registration' %}">-->
+<!--            <button type="submit">Регистрация</button>-->
+<!--        </form>-->
+<!--    -->
+<!--        <form method="get" action="{% url 'hurry_up_be_kind:logging_user' %}">-->
+<!--            <button type="submit">Вход</button>-->
+<!--        </form>-->
+
+<!--        <p> Доступны после регистрации или ввода пароля и логина </p>-->
+<!--        <form method="get" action="{% url 'hurry_up_be_kind:getting_your_data' %}">-->
+<!--            <button type="submit">Личный кабинет</button>-->
+<!--        </form>-->
+
+<!--        <form method="get" action="{% url 'hurry_up_be_kind:menu_list' %}">-->
+<!--            <button type="submit" name="orderby" value="all_optimal_menu">Меню</button>-->
+<!--        </form>-->
+
+<!--        <form action="{% url 'hurry_up_be_kind:all_order' %}" method="get" >-->
+<!--            <button type="submit">Моя корзина</button>-->
+<!--        </form>-->
+
+<!--        <p> Доступны только кондитеру</p>-->
+<!--        <form action="{% url 'hurry_up_be_kind:registration_confectionary' %}" method="get" >-->
+<!--            <button type="submit">Регистрация кондитерской</button>-->
+<!--        </form>-->
+
+<!--        <form action="{% url 'hurry_up_be_kind:all_order_confectionary' %}" method="get" >-->
+<!--            <button type="submit">Заказы кондитерской</button>-->
+<!--        </form>-->
+
+<!--        <form action="{% url 'hurry_up_be_kind:pastry_shop_office' %}" method="get" >-->
+<!--            <button type="submit">Моя кондитерская</button>-->
+<!--        </form>-->
+
+<!--        <p> Доступны только администратору</p>-->
+<!--        <form action="{% url 'hurry_up_be_kind:bulk_loading_menu' %}" method="get" >-->
+<!--            <button type="submit">Массовая загрузка меню</button>-->
+<!--        </form>-->
+
+
+    <div class="container_block_content">
+        {% block content %}
+        {% endblock content%}
+    </div>
+
+    <div class="container_forms">
+        {% block forms %}
+        {% endblock forms%}
+    </div>
+
+
+    <div class="container_footer">
+        {% block footer %}
+        {% endblock footer%}
+    </div>
 </body>
 
 </html>

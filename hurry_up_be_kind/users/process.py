@@ -24,7 +24,7 @@ def _create_user(request):
     if serializer_form.validated_data.get('email'):
         email = serializer_form.validated_data['email']
 
-    status_user = serializer_form.validated_data['status'].lower()
+    status_user = serializer_form.validated_data['status']
 
     if status_user == 'ward':
         if not serializer_form.validated_data.get('save_file'):
@@ -121,6 +121,12 @@ def _file_get(request):
 def _inf_user(request):
     """ Функция возвращает информацию о пользователе """
     file_user = _file_get(request=request)
+
+    if request.user.avatar_user:
+        avatar_user = f"{request._current_scheme_host}{request.user.avatar_user.url}"
+    else:
+        avatar_user = ''
+
     status = request.user.status
     context = {'last_name': request.user.last_name,
                'first_name': request.user.first_name,
@@ -129,14 +135,13 @@ def _inf_user(request):
                'email': request.user.email,
                'address_ward': request.user.address_ward,
                'about_me': request.user.about_me,
-               'avatar_user': f"{request._current_scheme_host}{request.user.avatar_user.url}",
+               'avatar_user': avatar_user,
                'link_user_files': file_user,
                'status': status,
                }
 
     if status in ['philantropist', 'confectioner']:
         context['size_donations'] = request.user.size_donations
-
     return context
 
 

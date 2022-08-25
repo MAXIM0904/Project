@@ -1,16 +1,14 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Меню</title>
-</head>
-<body>
-    <h1>Выбор меню:</h1>
+{% extends 'frontend/base.html' %}
 
-    <form method="get" action="{% url 'hurry_up_be_kind:menu_list' %}">
-        <button type="submit" name="orderby" value="all_economy_menu">Эконом меню</button>
-        <button type="submit" name="orderby" value="all_optimal_menu">Оптимальное меню</button>
-        <button type="submit" name="orderby" value="all_business_menu">Бизнес</button>
+{% block content %}
+    <h1>Выбор меню:</h1>
+{% endblock content%}
+
+{% block forms %}
+    <form class="form" method="get" action="{% url 'hurry_up_be_kind:menu_list' %}">
+        <button class="button" type="submit" name="orderby" value="all_economy_menu">Эконом меню</button>
+        <button class="button" type="submit" name="orderby" value="all_optimal_menu">Оптимальное меню</button>
+        <button class="button" type="submit" name="orderby" value="all_business_menu">Бизнес</button>
     </form>
 
     {% if dict_response %}
@@ -25,7 +23,7 @@
                     <img src="../../../static/frontend/images/menu/menu.png" alt="Аватар пользователя по умолчанию" width="100" height="100">
                 {% endif %}
 
-            <form method="post" action="{% url 'hurry_up_be_kind:order' %}">
+            <form class="form" method="post" action="{% url 'hurry_up_be_kind:order' %}">
                 {% csrf_token %}
                 <p>Название: {{cake.name_dish}}</p>
                 <p>Вес: {{cake.weight_dish}} кг.</p>
@@ -33,11 +31,11 @@
                 <p>Описание: {{cake.description_dish}}</p>
                 <p>Состав: {{cake.composition_dish}}</p>
                 <p>Количество блюд : <input type="number" step="1" name=count_menu size="3" value="count_menu"></p>
-                <button type="submit" name="product_id" value={{cake.id}}>В корзину</button>
+                <button class="button" type="submit" name="product_id" value={{cake.id}}>В корзину</button>
                 <hr>
             </form>
         {% endfor %}
-
+    {%else%}
+    <h2>Меню пока не загружено</h2>
     {% endif %}
-</body>
-</html>
+{% endblock forms%}

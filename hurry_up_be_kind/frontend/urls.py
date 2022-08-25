@@ -13,6 +13,7 @@ urlpatterns = [
     path('changing_data/', views.changing_data, name='changing_data'),
     path('logging_user/', views.logging_user, name='logging_user'),
     path('all_ward/', views.all_ward, name='all_ward'),
+    path('logout/', views.logout, name='logout'),
 
     #confectionary
     path('registration_confectionary/', views.registration_confectionary, name='registration_confectionary'),

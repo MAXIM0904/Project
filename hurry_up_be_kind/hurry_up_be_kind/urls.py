@@ -21,6 +21,7 @@ from frontend.process import pageNotFound
 from rest_framework_simplejwt.views import (TokenObtainPairView, TokenRefreshView,)
 from .drf_yasg import urlpatterns as doc_urls
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hurry_up_be_kind/', include('frontend.urls')),

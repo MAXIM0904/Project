@@ -1,21 +1,19 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Личный кабинет кондитерской</title>
-</head>
-<body>
+{% extends 'frontend/base.html' %}
 
+{% block content %}
+    <h1>Личный кабинет кондитерской</h1>
+{% endblock content%}
+
+{% block forms %}
     {% if dict_response %}
     <p>Аватар:</p>
-
         {% if dict_response.avatar_confectionary %}
             <img src="{{dict_response.avatar_confectionary}}" alt="Аватар пользователя" width="200" height="200">
         {% else %}
             <img src="../../../static/frontend/images/avatar/Avatar.png" alt="Аватар пользователя по умолчанию" width="200" height="200">
         {% endif %}
 
-        <form method="post" action="{% url 'hurry_up_be_kind:update_confectionary' %}">
+        <form class="form" method="post" action="{% url 'hurry_up_be_kind:update_confectionary' %}">
             {% csrf_token %}
             <fieldset>
                 <p>Название кондитерской: <input name=confectionary_name size="30" type="text" value="{{dict_response.confectionary_name}}"></p>
@@ -24,8 +22,7 @@
                 <p>Адрес: <input name=address_ward size="30" type="text" value="{{dict_response.address_ward}}"></p>
             </fieldset>
             <br>
-            <button type="submit">Изменить данные</button>
+            <button class="button" type="submit">Изменить данные</button>
         </form>
     {% endif %}
-</body>
-</html>
+{% endblock forms%}

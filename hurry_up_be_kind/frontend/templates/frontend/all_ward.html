@@ -1,13 +1,13 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Все подопечные</title>
-</head>
-<body>
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Все подопечные</h1>
+{% endblock content%}
+
+{% block forms %}
     {% if dict_response %}
         {% for user_profile in dict_response %}
-            <form method="post" action="{% url 'hurry_up_be_kind:update_order' %}">
+            <form class="form" method="post" action="{% url 'hurry_up_be_kind:update_order' %}">
                 {% csrf_token %}
                 <p>Фамилия: {{user_profile.last_name}}</p>
                 <p>Имя: {{user_profile.first_name}}</p>
@@ -19,10 +19,10 @@
 
                 <input type="hidden"  name="order_id" value={{order_id}}>
                 <input type="hidden"  name="user_ward_id" value={{user_profile.id}}>
-                <button type="submit">Выбрать подопечного</button>
+                <button class="button" type="submit">Выбрать подопечного</button>
                 <hr>
             </form>
         {% endfor %}
     {% endif %}
-</body>
-</html>
+{% endblock forms%}
+

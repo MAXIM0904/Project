@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Регистрация пользователя</title>
-</head>
-<body>
-    <h1>Регистрация нового пользователя.</h1>
-    {{errors}}
-    <form method="post" enctype="multipart/form-data" action="{% url 'hurry_up_be_kind:registration' %}">
+{% extends 'frontend/base.html' %}
+
+{% block content %}
+    <h1>Регистрация нового пользователя</h1>
+{% endblock content%}
+
+{% block forms %}
+    <form class="form" method="post" enctype="multipart/form-data" action="{% url 'hurry_up_be_kind:registration' %}">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit">Сохранить</button>
+        <button class="button" type="submit">Регистрация</button>
     </form>
-
-</body>
-</html>
+{% endblock forms%}

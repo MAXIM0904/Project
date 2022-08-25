@@ -1,13 +1,12 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>О себе</title>
-</head>
-<body>
-    <h1>Данные пользователя</h1>
+{% extends 'frontend/base.html' %}
 
-    {% if dict_response %}
+{% block content %}
+    <h1>Данные пользователя</h1>
+{% endblock content%}
+
+{% block forms %}
+    {{errors}}
+{% if dict_response %}
     <p>Аватар:</p>
         {% if  dict_response.avatar_user %}
             <img src="{{dict_response.avatar_user}}" alt="Аватар пользователя" width="200" height="200">
@@ -15,7 +14,7 @@
             <img src="../../../static/frontend/images/avatar/Avatar.png" alt="Аватар пользователя по умолчанию" width="200" height="200">
         {% endif %}
 
-        <form method="post" action="{% url 'hurry_up_be_kind:changing_data' %}">
+        <form class="form" method="post" action="{% url 'hurry_up_be_kind:changing_data' %}">
             {% csrf_token %}
             <fieldset>
                 <p>Фамилия: <input name=last_name size="30" type="text" value="{{dict_response.last_name}}"></p>
@@ -27,10 +26,9 @@
                 <p>Обо мне: <input name=about_me size="30" type="text" value="{{dict_response.about_me}}"></p>
             </fieldset>
             <br>
-            <button type="submit">Изменить данные</button>
+            <button class="button" type="submit">Изменить данные</button>
         </form>
 
-        <p>Статус: {{dict_response.status}}</p>
         {% if dict_response.size_donations %}
             <p>Сумма донатов: {{dict_response.size_donations}} </p>
         {% endif %}
@@ -45,13 +43,10 @@
         {% endfor %}
     {% endif %}
 
-    <form action="{% url 'hurry_up_be_kind:index' %}" method="get" >
-        <button type="submit">На главную</button>
-    </form>
+    {% if dict_response.status == 'confectioner' %}
+        <form class="form" action="{% url 'hurry_up_be_kind:registration_confectionary' %}" method="get" >
+            <button class="button" type="submit">Регистрация кондитерской</button>
+        </form>
+    {% endif %}
 
-    <form action="{% url 'hurry_up_be_kind:registration_confectionary' %}" method="get" >
-        <button type="submit">Регистрация кондитерской</button>
-    </form>
-
-</body>
-</html>
+{% endblock forms%}

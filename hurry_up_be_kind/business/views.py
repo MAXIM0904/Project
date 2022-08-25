@@ -1,6 +1,6 @@
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Order
 from .serializers import OrderSerializer
 from django.http import JsonResponse
@@ -126,11 +126,12 @@ class ExecuteAnOrder(APIView):
 
 class AllDesireWard(ListAPIView):
     """ Класс предоставляет данные о желании подопечных """
-    permission_classes = (IsAuthenticated,)
+    permission_classes = (AllowAny,)
 
     def list(self, request, *args, **kwargs):
         queryset = Order.objects.filter(order_status="desire_ward")
         instanse_list = []
+        print('7897879')
         for inf_wishes in queryset:
             instance = process.inf_order(order=inf_wishes, status=request.user.status)
             instanse_list.append(instance)

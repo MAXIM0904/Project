@@ -1,17 +1,14 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Регистрация кондитерской</title>
-</head>
-<body>
-    {{errors}}
+{% extends 'frontend/base.html' %}
+
+{% block content %}
     <h1>Регистрация кондитерской</h1>
-    <form method="post" enctype="multipart/form-data" action="{% url 'hurry_up_be_kind:registration_confectionary' %}">
+{% endblock content%}
+
+{% block forms %}
+    {{errors}}
+    <form class="form" method="post" enctype="multipart/form-data" action="{% url 'hurry_up_be_kind:registration_confectionary' %}">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit">Отправить</button>
+        <button class="button" type="submit">Отправить</button>
     </form>
-
-</body>
-</html>
+{% endblock forms%}

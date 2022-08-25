@@ -1,5 +1,11 @@
 {% extends 'frontend/base.html' %}
 
+{% block head %}
+    <link type="text/css" href="../../../static/frontend/css/base_pattern/normalize.css" rel="stylesheet" />
+    <link type="text/css" href="../../../static/frontend/css/base_pattern/styles.css" rel="stylesheet" />
+    <link type="text/css" href="../../../static/frontend/css/base_pattern/base.css" rel="stylesheet" />
+{% endblock head %}
+
 {% block content %}
     <h1>Сайт фонда скорей добрей.</h1>
 
@@ -8,11 +14,7 @@
     <p>Развиваем позитивную благотворительность, раскрывая доброту в каждом</p>
 
     <form action="{% url 'hurry_up_be_kind:all_desire_ward' %}" method="get" >
-        <button type="submit">Хочу помочь</button>
+        <button class="button" type="submit">Хочу помочь</button>
     </form>
 
 {% endblock content%}
-
-</body>
-
-</html>

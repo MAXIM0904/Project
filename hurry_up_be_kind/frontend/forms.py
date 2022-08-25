@@ -10,11 +10,7 @@ from django.contrib.auth.forms import UserCreationForm
 class RegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
-        print(dir(self.fields['status']))
-        print('09')
-        print(self.fields['status'].valid_value)
         self.fields['status'].choices[0] = ('', 'Категория не выбрана')
-        print(settings.ALLOWED_HOSTS)
 
 
 

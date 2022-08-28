@@ -53,7 +53,6 @@ class UpdateOrder(APIView):
 
     def patch(self, request):
         model_object = Order.objects.get(id=request.POST['order_id'])
-        print(request.POST)
         if 'user_philantropist_id' in list(request.POST):
             if request.POST['user_philantropist_id']:
                 model_object.user_philantropist_id = request.user
@@ -131,7 +130,6 @@ class AllDesireWard(ListAPIView):
     def list(self, request, *args, **kwargs):
         queryset = Order.objects.filter(order_status="desire_ward")
         instanse_list = []
-        print('7897879')
         for inf_wishes in queryset:
             instance = process.inf_order(order=inf_wishes, status=request.user.status)
             instanse_list.append(instance)

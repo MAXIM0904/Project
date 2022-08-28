@@ -429,7 +429,9 @@ def all_desire_ward(request):
         # }
 
         dict_response = requests_to_the_server.urls_request(key_request='all_desire_ward')
-        return render(request, 'frontend/business/desire_ward.html', {'dict_response': dict_response})
+        context = process.controll_context(request=request, title='Желания подопечного')
+        context['dict_response'] = dict_response
+        return render(request, 'frontend/business/desire_ward.html', context=context)
 
 
 def execute_an_order(request):

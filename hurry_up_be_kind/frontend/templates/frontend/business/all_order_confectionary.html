@@ -10,9 +10,9 @@
             <p>Товар: {{order.product_id.name_dish}}</p>
             <p>Цена: {{order.product_id.price_dish}} руб.</p>
             <p>Количество: {{order.count_menu}}</p>
-            <p>Благотворитель: {{order.user_philantropist_id.usermane}}</p>
-            <p>Заказ сформирован для: {{order.user_ward_id.usermane}}</p>
-            <p>Заказ будет выполнять кондитерская: '{{order.confectionary_id.usermane}}', расположенная
+            <p>Благотворитель: {{order.user_philantropist_id.last_name}} {{order.user_philantropist_id.first_name}}</p>
+            <p>Заказ сформирован для: {{order.user_ward_id.last_name}} {{order.user_ward_id.first_name}}</p>
+            <p>Заказ будет выполнять кондитерская: '{{order.confectionary_id.last_name}}', расположенная
                 по адресу: {{order.confectionary_id.address_ward}}</p>
             <p>Общая стоимость заказа: {{order.price_order}}</p>
 

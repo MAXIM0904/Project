@@ -10,12 +10,13 @@
             <p>Товар: {{order.product_id.name_dish}}</p>
             <p>Цена: {{order.product_id.price_dish}} руб.</p>
             <p>Количество: {{order.count_menu}}</p>
-            <p>Заказ сформирован для: {{order.user_ward_id.usermane}}</p>
-            <p>Заказ будет выполнять кондитерская: '{{order.confectionary_id.usermane}}', расположенная
-                    по адресу: {{order.confectionary_id.address_ward}}</p>
+            <p>Заказ сформирован для: {{order.user_ward_id.last_name}} {{order.user_ward_id.first_name}}</p>
+            <p>Заказ будет выполнять кондитерская: '{{dict_response.confectionary_id.confectionary_name}}',
+                расположенная по адресу: {{dict_response.confectionary_id.address_ward}}</p>
 
             {% if order.user_philantropist_id %}
-                <p>Благотворитель: {{order.user_philantropist_id.usermane}}</p>
+                <p>Благотворитель: {{order.user_philantropist_id.last_name}}
+                    {{order.user_philantropist_id.first_name}}</p>
 
             {%else%}
                 <form class="form" method="POST" action="{% url 'hurry_up_be_kind:update_order' %}">

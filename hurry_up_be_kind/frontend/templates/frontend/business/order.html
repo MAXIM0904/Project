@@ -10,15 +10,14 @@
         <p>Количество: {{dict_response.count_menu}}</p>
 
         {% if dict_response.user_philantropist_id %}
-            <p>Благотворитель: {{dict_response.user_philantropist_id.usermane}}</p>
+            <p>Благотворитель: {{dict_response.user_philantropist_id.last_name}} {{dict_response.user_philantropist_id.first_name}}</p>
 
         {%else%}
             <p>Благотворитель скоро будет найден.</p>
         {%endif%}
 
-
         {% if dict_response.user_ward_id %}
-            <p>Заказ сформирован для: {{dict_response.user_ward_id.usermane}}</p>
+            <p>Заказ сформирован для: {{dict_response.user_ward_id.last_name}} {{dict_response.user_ward_id.first_name}}</p>
 
         {%else%}
             <form class="form" method="POST" action="{% url 'hurry_up_be_kind:all_ward' %}">
@@ -30,7 +29,7 @@
         {%endif%}
 
         {% if dict_response.confectionary_id %}
-            <p>Заказ будет выполнять кондитерская: '{{dict_response.confectionary_id.usermane}}', расположенная
+            <p>Заказ будет выполнять кондитерская: '{{dict_response.confectionary_id.confectionary_name}}', расположенная
                 по адресу: {{dict_response.confectionary_id.address_ward}}</p>
         {%else%}
             <form class="form" method="POST" action="{% url 'hurry_up_be_kind:all_confectionary' %}">

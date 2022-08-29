@@ -12,7 +12,7 @@
             <p>Количество: {{order.count_menu}}</p>
 
             {% if order.user_philantropist_id %}
-                <p>Благотворитель: {{order.user_philantropist_id.usermane}}</p>
+                <p>Благотворитель: {{order.user_philantropist_id.last_name}} {{order.user_philantropist_id.first_name}}</p>
 
             {%else%}
                 <p>Благотворитель скоро будет найден.</p>
@@ -20,7 +20,7 @@
 
 
             {% if order.user_ward_id %}
-                <p>Заказ сформирован для: {{order.user_ward_id.usermane}}</p>
+                <p>Заказ сформирован для: {{order.user_ward_id.last_name}} {{order.user_ward_id.first_name}}</p>
 
             {%else%}
                 <form class="form" method="POST" action="{% url 'hurry_up_be_kind:all_ward' %}">
@@ -32,7 +32,7 @@
             {%endif%}
 
             {% if order.confectionary_id %}
-                <p>Заказ будет выполнять кондитерская: '{{order.confectionary_id.usermane}}', расположенная
+                <p>Заказ будет выполнять кондитерская: '{{order.confectionary_id.confectionary_name}}', расположенная
                     по адресу: {{order.confectionary_id.address_ward}}</p>
 
             {%else%}

@@ -367,12 +367,12 @@ def update_order(request):
         }
 
         payload = request.POST
-
         dict_response = requests_to_the_server.urls_request(
             key_request='update_order', headers=headers, payload=payload
         )
         context = process.controll_context(request=request, title='Доброе дело')
         context['dict_response'] = dict_response
+
         return render(request, 'frontend/business/order.html', context=context)
 
 
@@ -421,7 +421,7 @@ def all_order_confectionary(request):
 
 
 def all_desire_ward(request):
-    """ Функция возвращает все заказы кондитерской """
+    """ Функция возвращает все желания подопечного """
     if request.method == "GET":
         access_token = request.COOKIES.get('access')
         # headers = {

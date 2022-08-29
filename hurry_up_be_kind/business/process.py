@@ -1,50 +1,54 @@
-
-def _inf_user_data(id_user):
-    inf_user = {
-        'id': id_user.id,
-        'usermane': f"{id_user.first_name} {id_user.last_name}"
-    }
-    return inf_user
+from .models import Order
+from menu.models import Menu
+from users.models import UserData
+from confectionary.models import Confectionary
 
 
-def inf_order(order, status):
-    ward = None
-    philantropist = None
-    confectionary = None
-    if order.user_philantropist_id is not None:
-        philantropist = _inf_user_data(id_user=order.user_philantropist_id)
-
-    if order.confectionary_id is not None:
-        confectionary = {
-            'id': order.confectionary_id.id,
-            'usermane': order.confectionary_id.confectionary_name,
-            'address_ward': order.confectionary_id.address_ward
-        }
-
-    if order.user_ward_id is not None:
-        ward = _inf_user_data(id_user=order.user_ward_id)
-
-    product = {
-        'name_dish': order.product_id.name_dish,
-        'section_menu': order.product_id.section_menu,
-        'price_dish': float(order.product_id.price_dish),
-    }
-
-    instance = {
-        'id': order.id,
-        'user_philantropist_id': philantropist,
-        'confectionary_id': confectionary,
-        'user_ward_id': ward,
-        'product_id': product,
-        'count_menu': order.count_menu,
-        'order_status': order.order_status,
-        'price_order': float(order.price_order),
-        'status_user': status,
-    }
+def repeat_control(instance):
+    '''Функция не позволяет сохранять в корзине повторы. При обнаружения обновляет существующую позицию'''
+    instance_control = Order.objects.filter(
+        user_ward_id=instance.user_ward_id,
+        user_philantropist_id=instance.user_philantropist_id,
+        confectionary_id=instance.confectionary_id,
+        product_id=instance.product_id
+    )
+    if instance_control:
+        instance = instance_control[0]
     return instance
 
 
-def status_order(order):
-    if order.user_ward_id and order.user_philantropist_id and order.confectionary_id:
-        order.order_status = 'formed'
-        order.save()
+def create_order(request):
+    """Функция создания корзины"""
+    if request.user.status == 'ward':
+        instance = Order(user_ward_id=request.user,
+                         order_status='desire_ward'
+                         )
+    elif request.user.status == 'philantropist':
+        instance = Order(user_philantropist_id=request.user)
+
+    else:
+        instance = Order(
+            user_philantropist_id=request.user,
+            confectionary_id=request.user.confectionary
+        )
+    product = Menu.objects.get(id=request.POST['product_id'])
+    instance.product_id = product
+    instance = repeat_control(instance)
+    instance.price_order = product.price_dish * int(request.POST['count_menu'])
+    return instance
+
+
+def update_order(request):
+    """Функция изменения корзины"""
+    instance = Order.objects.get(id=request.POST['order_id'])
+    if 'user_ward_id' in request.POST:
+        instance.user_ward_id = UserData.objects.get(id=request.POST['user_ward_id'])
+    if 'user_philantropist_id' in request.POST:
+        instance.user_philantropist_id = UserData.objects.get(id=request.POST['user_philantropist_id'])
+    if 'confectionary_id' in request.POST:
+        instance.confectionary_id = Confectionary.objects.get(id=request.POST['confectionary_id'])
+    if instance.user_ward_id and instance.user_philantropist_id and instance.confectionary_id:
+        instance.order_status = 'formed'
+    if instance.order_status == 'paid_for' and request.status == 'confectioner':
+        instance.order_status = 'completed'
+    return instance

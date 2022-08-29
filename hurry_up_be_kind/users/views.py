@@ -12,6 +12,7 @@ from . import process
 from django.shortcuts import redirect
 
 
+
 def home_page(request):
     return redirect('/hurry_up_be_kind/index', permanent=True)
 

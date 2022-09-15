@@ -7,14 +7,139 @@
 {% endblock head %}
 
 {% block content %}
-    <h1>Сайт фонда скорей добрей.</h1>
 
-    <h2>Помогать во благо другим и себе</h2>
+  <div class="inf_homepage">
+      <h1 class="h1_content">Помогать во благо другим и себе</h1>
+      <p class="p_content">Развиваем позитивную благотворительность,<br> раскрывая доброту в каждом</p>
 
-    <p>Развиваем позитивную благотворительность, раскрывая доброту в каждом</p>
+      <form class="form" action="{% url 'hurry_up_be_kind:all_desire_ward' %}" method="get" >
+          <button class="button" type="submit">Сделать добро</button>
+      </form>
 
-    <form action="{% url 'hurry_up_be_kind:all_desire_ward' %}" method="get" >
-        <button class="button" type="submit">Хочу помочь</button>
-    </form>
+      <img class="main_picture" src="../../../static/frontend/images/home_page/photo_heart.png" alt="Логотип приложения">
+  </div>
+
+
+  <div class="container_inf_hurry_up_be_kind">
+
+      <img class="img_hurry_up_be_kind_home_page" src="../../../static/frontend/images/home_page/Logo_hurry_up_be_kind.png" alt="Логотип фонда 'Скорей добрей'">
+      
+      <h3 class="h3_content_mission">НАША МИССИЯ</h3>
+
+      <p class="p_content_mission">
+          Благотровительный фонд "Скорей добрей" помогает семьям<br> 
+          с инвалидностью, пожилым людям и сиротам.<br>
+          Мы решили подарить людям возможность совершить добро<br>
+          с помошью кондиреских изделий.            
+      </p>
+
+      <a class="index_link_logo" href="#">Хочу узнать больше</a>
+
+      <h3 class="h3_content_work">КАК ЭТО РАБОТАЕТ?</h3>
+      <p class="p_content_work">
+          Вы можите заказать и оплатить кондиреские изделия<br> 
+          для подопечных фонда.          
+      </p>
+      
+      <form class="form_philant" action="#" method="get" >
+          <button class="button_philant" type="submit">Хочу помочь</button>
+      </form>
+
+      <form class="form_ward" action="#" method="get" >
+          <button class="button_ward" type="submit">Получить помощь</button>
+      </form>
+  </div>
+
+
+  <div class="container_partners">
+      <h3 class="h3_content_partners">НАШИ ПАРТНЕРЫ</h3>
+      <p class="p_content_partners">
+          Компании, которые оказывают помошь и поддержку благотворительной организации
+          "Скорей Добрей" на регулярной основе         
+      </p>
+  </div>
+
+
+  <div id="carousel" class="carousel">
+      <button class="arrow prev">⇦</button>
+      <div class="gallery">
+        <ul>
+          <li><img src="../../../static/frontend/images/partners/1 1.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 2 1.png"></li>
+          <li><img src="../../../static/frontend/images/partners/солохаул 1.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 5.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 6.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 6-1.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 7.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 8.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 9.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 10.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 12.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 13.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 14.png"></li>
+          <li><img src="../../../static/frontend/images/partners/Group 15.png"></li>
+        </ul>
+      </div>
+      <button class="arrow next">⇨</button>
+    </div>
+  
+    <script>
+      /* этот код помечает картинки, для удобства разработки */
+      let i = 1;
+      for(let li of carousel.querySelectorAll('li')) {
+        li.style.position = 'relative';
+        li.insertAdjacentHTML('beforeend', `<span style="position:absolute;left:0;top:0">${i}</span>`);
+        i++;
+      }
+  
+      /* конфигурация */
+      let width = 130; // ширина картинки
+      let count = 3; // видимое количество изображений
+  
+      let list = carousel.querySelector('ul');
+      let listElems = carousel.querySelectorAll('li');
+  
+      let position = 0; // положение ленты прокрутки
+  
+      carousel.querySelector('.prev').onclick = function() {
+        // сдвиг влево
+        position += width * count;
+        // последнее передвижение влево может быть не на 3, а на 2 или 1 элемент
+        position = Math.min(position, 0)
+        list.style.marginLeft = position + 'px';
+      };
+  
+      carousel.querySelector('.next').onclick = function() {
+        // сдвиг вправо
+        position -= width * count;
+        // последнее передвижение вправо может быть не на 3, а на 2 или 1 элемент
+        position = Math.max(position, -width * (listElems.length - count));
+        list.style.marginLeft = position + 'px';
+      };
+    </script>
+
+
+  <div class="container_loggin">
+    <h1 class="h1_container_loggin">НАЧНИТЕ ПОМОГАТЬ ПРЯМО СЕЙЧАС</h1>
+
+    <div class="user_login_form">
+      <h3 class="h3_container_loggin">
+          Пожалуйста, войдите в свой <br> личный кабинет       
+      </h3>
+      <form class="form_user" method="post" action="#">
+        {% csrf_token %}
+          <input class="login_form" required type="text" name="username" placeholder="Номер телефона">
+          <input class="login_form1" required type="text" name="password" placeholder="Пароль">
+          <p class="recover_password">Забыли пароль? <a class="index_recover_password" href="#">Восстановить</a> </p>
+
+        <button class="button_login" type="submit">Войти</button>
+        <p class="recover_password">Нет аккаунта? <a class="index_recover_password" href="#">Зарегистрироваться</a> </p>
+      </form>
+
+      
+    </div>
+
+    <img class="img_photo_heart_homepage" src="../../../static/frontend/images/home_page/photo_hand_heart.png" alt="Логотип фонда 'Скорей добрей'">
+  </div>
 
 {% endblock content%}

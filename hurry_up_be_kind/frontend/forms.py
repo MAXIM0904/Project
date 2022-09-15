@@ -1,6 +1,4 @@
 from django import forms
-
-from hurry_up_be_kind import settings
 from users.models import UserData
 from confectionary.models import Confectionary
 from django.contrib.auth.forms import UserCreationForm
@@ -11,8 +9,6 @@ class RegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(RegistrationForm, self).__init__(*args, **kwargs)
         self.fields['status'].choices[0] = ('', 'Категория не выбрана')
-
-
 
     save_file = forms.FileField(
         widget=forms.ClearableFileInput(attrs={'multiple': True}), required=False, label='Загрузка документов',

@@ -1,9 +1,281 @@
-.container_block_content {
-	background: #FFD700;
-	color: #fff;
-	padding-top: 10rem;
-	padding-bottom: 10rem;
-	padding-right: 5rem;
-	padding-left: 2rem;
-	font-size: 1.5rem;
+.inf_homepage{
+	position: relative;
+}
+
+.main_picture{
+	max-width: 1497px;
+	min-width: 900px;
+}
+
+
+.h1_content{
+	position: absolute;
+	margin-top: 170px;
+	font-weight: 700;
+	font-size: 32px;
+	line-height: 38px;
+	color: #FFFFFF;
+}
+
+.p_content{
+	position: absolute;
+	margin-top: 240px;
+	padding: 0;
+	color: #FFFFFF;
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 23px;
+
+}
+
+.button.button{
+	position: absolute;
+	margin-top: 336px;
+}
+
+.container_inf_hurry_up_be_kind{
+	display: flow-root;
+}
+
+.img_hurry_up_be_kind_home_page{
+	position: absolute;
+	float: right;
+	width: 625px;
+    height: 489px;
+    left: 736px;
+    top: 774px;
+
+	padding: 0px 79px 100px 0;
+}
+
+.h3_content_mission{
+	margin-top: 100px;
+}
+
+.p_content_mission{
+	padding-top: 16px;
+}
+
+.index_link_logo{
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 23px;
+
+	color: #006095;
+
+    position: relative;
+    padding: 79px 16px 0 0;
+}
+
+.h3_content_work{
+	padding-top: 93px;
+}
+
+
+.p_content_work{
+	padding-top: 16px;
+}
+
+.button_phil{
+	margin: 0;
+}
+
+.form_ward{
+	margin: 0;
+}
+
+
+.button_philant{
+	padding: 15px 25px;
+	color: #FFFFFF;
+	border-radius: 10px;
+	margin: 48px 22px 174px 79px;
+	background-color: #006095;
+	border: 2px solid #006095;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 19px;
+	float: left;
+}
+
+.button_ward{
+	padding: 15px 25px;
+	border-radius: 10px;
+	border: 2px solid #006095;
+	font-weight: 700;
+	font-size: 16px;
+	margin: 48px 0 174px 0;
+	line-height: 19px;
+	color: #006095;
+	background-color: #FFFFFF;
+}
+
+
+.h3_content_partners{
+	margin-bottom: 16px;
+}
+
+.p_content_partners{
+	margin-bottom: 32px;
+}
+
+
+body {
+	padding: 10px;
+  }
+  
+  .carousel {
+	position: relative;
+	padding: 10px 40px;
+	background: #FFFFFF;
+	margin-bottom: 133px;
+  }
+  
+  .carousel img {
+    width: 187px;
+    height: 187px;
+	/* делаем этот элемент блочным, чтобы убрать лишнее пространство вокруг картинок */
+	display: block;
+  }
+  
+  .arrow {
+	position: absolute;
+	top: 81px;
+	padding: 0;
+	background: #FFFFFF;
+	border: 1px solid #FFFFFF;
+	font-size: 24px;
+	line-height: 24px;
+	color: #006095;
+	display: block;
+  }
+  
+  .arrow:focus {
+	outline: none;
+  }
+  
+  .arrow:hover {
+	background: #ccc;
+	cursor: pointer;
+  }
+  
+  .prev {
+	left: 7px;
+	top: 81px;
+  }
+  
+  .next {
+	right: 7px;
+  }
+  
+  .gallery {
+	overflow: hidden;
+  }
+  
+  .gallery ul {
+	height: 190px;
+	width: 9999px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	transition: margin-left 250ms;
+	/* удаляем пустое пространство между элементами li, у которых установлен inline-block */
+	/* http://davidwalsh.name/remove-whitespace-inline-block */
+	font-size: 0;
+  }
+  
+  .gallery li {
+	position: relative;
+	display: inline-block;
+  }
+
+
+.container_loggin{
+	display: flow-root;
+	background-color: #006095;
+	height: 697px;
+	margin-bottom: 100px;
+}
+
+.h1_container_loggin{
+	text-align: center;
+	color: #FFFFFF;
+	padding-top: 80px;
+	padding-bottom: 40px;
+}
+
+.img_photo_heart_homepage{
+	float: left;
+	width: 561px;
+	height: 464px;
+	margin-left: 159px;	
+}
+
+.user_login_form{
+	position: absolute;
+	background-color: #FFFFFF;
+	width: 561px;
+	height: 464px;
+	margin-left: 720px;
+}
+
+.h3_container_loggin{
+	margin: 0;
+	font-weight: 700;
+	font-size: 24px;
+
+	margin: 48px 31px 48px 81px;
+
+	color: #161616;
+}
+
+.form_user{
+	margin-left: 81px;
+}
+
+.login_form{
+	margin-bottom: 20px;
+	width: 417px;
+	height: 30px;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+.login_form1{
+	margin-bottom: 16px;
+	width: 417px;
+	height: 30px;
+	border-top: none;
+	border-left: none;
+	border-right: none;
+}
+
+.recover_password{
+	margin: 0 0 53px 0;
+	font-weight: 400;
+	font-size: 20px;
+	line-height: 23px;
+	
+	color: #161616;
+}
+
+.index_recover_password{
+	color: #006095;
+}
+
+.button_login{
+	width: 417px;
+	height: 48px;
+	background: #F4DA0E;
+	border: #F4DA0E;
+	border-radius: 10px;
+	margin-bottom: 16px;
+	font-weight: 700;
+	font-size: 20px;
+	line-height: 99.69%;
+   
+	letter-spacing: 0.06em;
+
+	color: #006095;
 }

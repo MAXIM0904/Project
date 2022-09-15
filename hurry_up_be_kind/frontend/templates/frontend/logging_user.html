@@ -1,13 +1,18 @@
 {% extends 'frontend/base.html' %}
 
-{% block content %}
-    <h1>Вход на сайт</h1>
-{% endblock content%}
-
 {% block forms %}
-    <form class="form" method="post" action="{% url 'hurry_up_be_kind:logging_user' %}">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button class="button" type="submit">Отправить</button>
-    </form>
+
+        <img class="index_form_logging" src="../../../static/frontend/images/logging/logging.png" alt="Логотип дружбы">
+        <div class="text_form_logging">
+            <h2 class="greeting">Добро пожаловать!</h2>
+             <form class="form_logging" method="post" action="{% url 'hurry_up_be_kind:logging_user' %}">
+                {% csrf_token %}
+                  <input class="logging_form" required type="text" name="username" placeholder="Номер телефона">
+                  <input class="logging_form" required type="text" name="password" placeholder="Пароль">
+                  <p class="password_logging">Забыли пароль? <a class="index_password_logging" href="#">Восстановить</a> </p>
+
+                <button class="button_logging" type="submit">Войти</button>
+                <p class="password_logging">Нет аккаунта? <a class="index_password_logging" href="#">Зарегистрироваться</a> </p>
+              </form>
+        </div>
 {% endblock forms%}

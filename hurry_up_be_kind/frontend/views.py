@@ -341,7 +341,7 @@ def bulk_loading_menu(request):
 
 # корзина
 def order(request):
-    """ Фукнция добавления в корзину """
+    """ Функция добавления в корзину """
     if request.method == "POST":
         access_token = request.COOKIES.get('access')
         headers = {

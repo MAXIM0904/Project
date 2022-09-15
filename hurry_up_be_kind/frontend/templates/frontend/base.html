@@ -14,58 +14,17 @@
     <div class="container_block_menu">
         {% block menu %}
             <a class="index_link_logo" href="{% url 'hurry_up_be_kind:index' %}">
-                <img class="index_logo" src="../../../static/frontend/images/Логотип фонда.PNG" alt="Логотип Фонда 'Скорей Добрей'">
+                <img class="index_logo" src="../../../static/frontend/images/big_logo.png" alt="Логотип приложения">
             </a>
 
         <div class="container_menu">
+                <p class="phone_menu">+7 495 123-34-45</p>
                 {% for i_menu in menu %}
                         <a class="index_menu" href="{% url i_menu.url_name %}">{{i_menu.title}}</a>
                 {% endfor %}
         </div>
         {% endblock menu %}
-    
     </div>
-
-
-<!--        <form method="get" action="{% url 'hurry_up_be_kind:registration' %}">-->
-<!--            <button type="submit">Регистрация</button>-->
-<!--        </form>-->
-<!--    -->
-<!--        <form method="get" action="{% url 'hurry_up_be_kind:logging_user' %}">-->
-<!--            <button type="submit">Вход</button>-->
-<!--        </form>-->
-
-<!--        <p> Доступны после регистрации или ввода пароля и логина </p>-->
-<!--        <form method="get" action="{% url 'hurry_up_be_kind:getting_your_data' %}">-->
-<!--            <button type="submit">Личный кабинет</button>-->
-<!--        </form>-->
-
-<!--        <form method="get" action="{% url 'hurry_up_be_kind:menu_list' %}">-->
-<!--            <button type="submit" name="orderby" value="all_optimal_menu">Меню</button>-->
-<!--        </form>-->
-
-<!--        <form action="{% url 'hurry_up_be_kind:all_order' %}" method="get" >-->
-<!--            <button type="submit">Моя корзина</button>-->
-<!--        </form>-->
-
-<!--        <p> Доступны только кондитеру</p>-->
-<!--        <form action="{% url 'hurry_up_be_kind:registration_confectionary' %}" method="get" >-->
-<!--            <button type="submit">Регистрация кондитерской</button>-->
-<!--        </form>-->
-
-<!--        <form action="{% url 'hurry_up_be_kind:all_order_confectionary' %}" method="get" >-->
-<!--            <button type="submit">Заказы кондитерской</button>-->
-<!--        </form>-->
-
-<!--        <form action="{% url 'hurry_up_be_kind:pastry_shop_office' %}" method="get" >-->
-<!--            <button type="submit">Моя кондитерская</button>-->
-<!--        </form>-->
-
-<!--        <p> Доступны только администратору</p>-->
-<!--        <form action="{% url 'hurry_up_be_kind:bulk_loading_menu' %}" method="get" >-->
-<!--            <button type="submit">Массовая загрузка меню</button>-->
-<!--        </form>-->
-
 
     <div class="container_block_content">
         {% block content %}
@@ -77,11 +36,75 @@
         {% endblock forms%}
     </div>
 
+    <div class="container_address">
+        {% block container_address %}
+        <div class="container_inf_fond">
+            <p class="inf_fond">
+                МЕСТОРАСПОЛОЖЕНИЕ       
+            </p>
+            <p class="inf_fond1">
+                ГДЕ МЫ НАХОДИМСЯ      
+            </p>
+            <p class="inf_fond_address">
+                Россия, г. Сочи<br> ул. Дмитриевой, 13, корп. 1      
+            </p>
+        
+            <img class="img_fond_address" src="../../../static/frontend/images/partners/location_icon.png" alt="Картинка локации">
+        </div>
+        {% endblock container_address%}
+    </div>
+
+
+    <div class="container_contacts">
+        {% block contacts %}
+            <div class="contacts">
+                <p class="p_contacts">
+                    Остались вопросы?<br> 
+                    Тогда свяжитесь с нами!       
+                </p>
+                <p class="p_contacts1">
+                Не стесняйтесь обращаться к нам, если у вас есть какие-либо вопросы,<br>
+                предложения или идеи для сотрудничества.   
+                </p>
+                <div class="contacts_fond">      
+                    <p class="p_contacts_telegram_phone">
+                        @Olga_b67russia  
+                    </p>
+                    <p class="p_contacts_text">
+                        Написать в Telegram 
+                    </p>
+                    <p class="p_contacts_telegram_phone">
+                        +7 (965) 479-09-46
+                    </p>
+                    <p class="p_contacts_text">
+                        Позвонить
+                    </p>
+                </div>
+                <img class="img_contacts" src="../../../static/frontend/images/partners/logo_telegram.png" alt="Картинка Telegram">
+                <img class="img_contacts1" src="../../../static/frontend/images/partners/logo_phone.png" alt="Картинка звонка">
+            </div>
+        {% endblock contacts%}
+    </div>
 
     <div class="container_footer">
         {% block footer %}
+            <a class="img_footer" href="#">
+                <img class="index_logo" src="../../../static/frontend/images/big_logo.png" alt="Логотип приложения">
+            </a>
+            <div class="container_link_footer">
+                <a class="link_footer" href="#">Часто задаваемые вопросы</a>
+                <a class="link_footer" href="#">Документы и соглашения</a>
+                <a class="link_footer" href="#">Команда</a>
+            </div>
+
+            <div class="inf_text_footer">
+                <p class="text_footer">Скачивайте наше приложение<br> и совершайте добро в любое удобное время</p>
+                <a class="link_application_footer" href="#">Ссылка на приложение</a>
+            </div>
         {% endblock footer%}
     </div>
+
+
 </body>
 
 </html>

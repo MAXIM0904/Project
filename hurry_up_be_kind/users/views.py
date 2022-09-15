@@ -1,7 +1,4 @@
-from django.contrib.auth import logout
 from django.contrib.auth.hashers import make_password
-from django.contrib.auth.views import PasswordChangeView
-from django.shortcuts import render
 from rest_framework.generics import ListAPIView
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
@@ -134,7 +131,6 @@ class PasswordRecovery(APIView):
 
 class PasswordReplacement(APIView):
     """ Класс замены пароля """
-
     permission_classes = (IsAuthenticated,)
 
     def patch(self, request):

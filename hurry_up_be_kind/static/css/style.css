@@ -69,11 +69,21 @@ body {
 }
 
 /* header */
+.header {
+    width: 100%;
+    position: fixed;
+    background-color: #fff;
+    z-index: 2;
+    box-shadow: 0px 4px 40px rgba(22, 22, 22, 0.1);
+}
+
 .header__container {
+    
     display: flex;
     justify-content: space-between;
     padding-top: 25px;
     padding-bottom: 25px;
+    
 }
 
 .header__menu {
@@ -136,6 +146,7 @@ body {
     background-image: url(../img/hero-img.jpg);
     background-repeat: no-repeat;
     background-size: cover;
+    padding-top: 146px;
 }
 
 .visually-hidden {

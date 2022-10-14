@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../static/css/registration.css">
+    <title>Document</title>
+</head>
+<body>
+   <section class="registration">
+    <div class="container form-reg">
+        <div class="form-reg__left"></div>
+        <form class="form-reg__right">
+            <h1 class="form-reg__title">Регистрация</h1>
+            <label class="form-reg__label">
+                <input type="text" name="name" class="form-reg__input" placeholder="Ваше ФИО">
+            </label>
+            
+            <label class="form-reg__label">
+                <input type="tel" name="phone" class="form-reg__input" placeholder="Номер телефона">
+            </label>
+            
+            <label class="form-reg__label">
+                <input type="email" name="email" class="form-reg__input" placeholder="E-mail">
+            </label>
+            
+            <label class="form-reg__label">
+                <input type="password" name="password" class="form-reg__input" placeholder="Придумайте пароль">
+            </label>
+            
+            <label class="form-reg__label">
+                <input type="password" name="repeat-password" class="form-reg__input" placeholder="Повторите пароль">
+            </label>
+            <span class="form-reg__role">Ваша роль:</span>
+             <select name="selctRole" id="selctRole" class="form-reg__select">
+                <option class="form-reg__placeholder" value="" disabled selected hidden>Выбрать</option>
+                <option value="Даритель">Даритель</option>
+                <option value="Подопечный">Подопечный</option>
+                <option value="Кондитерская">Кондитерская    </option>
+             </select>
+             <button class="form-reg__btn btn-reset">Зарегистрироваться</button>
+            
+        </form>
+    </div>
+   </section> 
+</body>
+</html>

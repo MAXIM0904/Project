@@ -54,5 +54,5 @@ const myProgectsGallery = new Swiper(projectsSlider, {
 
 // Маска телефона
 const phoneInput = document.querySelector('input[type="tel"]');
-const im = new Inputmask("+7 (999) 999-99-99");
+const im = new Inputmask("79999999999");
 im.mask(phoneInput);

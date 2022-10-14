@@ -10,7 +10,7 @@ from . import process
 def index(request):
     """Главная страница"""
     context = process.controll_context(request=request, title='Главная страница')
-    return render(request, 'frontend/homepage.html', context=context)
+    return render(request, 'frontend/index.html', context=context)
 
 
 def registration(request):
@@ -111,7 +111,7 @@ def getting_your_data(request):
 
         if 'detail' in dict_response.keys():
             errors = dict_response['detail']
-            return render(request, 'frontend/homepage.html', {'errors': errors})
+            return render(request, 'frontend/index.html', {'errors': errors})
 
         else:
             # dict_response = requests_to_the_server.preparation_for_html(dict_response=dict_response)
@@ -152,7 +152,7 @@ def logging_user(request):
             payload = request.POST
             dict_response = requests_to_the_server.urls_request(key_request='logging', payload=payload)
             if 'refresh' in dict_response.keys():
-                response = redirect('home_page')
+                response = redirect('/hurry_up_be_kind/index')
                 response.set_cookie('refresh', dict_response['refresh'], max_age=(5 * 24 * 60 * 60))
                 response.set_cookie('access', dict_response['access'], max_age=(1 * 24 * 60 * 60))
                 return response

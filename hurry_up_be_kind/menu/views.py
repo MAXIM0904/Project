@@ -9,7 +9,7 @@ from . import process
 
 
 class RegisterMenu(CreateAPIView):
-    """ Рeгистрация отдельного меню """
+    """ Регистрация отдельного меню """
     permission_classes = (IsAdminUser,)
     serializer_class = SerializerMenu
 

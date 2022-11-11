@@ -5,7 +5,7 @@ from confectionary.models import Confectionary
 
 
 def repeat_control(instance):
-    '''Функция не позволяет сохранять в корзине повторы. При обнаружения обновляет существующую позицию'''
+    '''Функция не позволяет сохранять в корзине повторы. При обнаружении обновляет существующую позицию'''
     instance_control = Order.objects.filter(
         user_ward_id=instance.user_ward_id,
         user_philantropist_id=instance.user_philantropist_id,

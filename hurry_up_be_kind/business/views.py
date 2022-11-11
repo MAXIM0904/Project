@@ -20,7 +20,7 @@ class CreateOrder(CreateAPIView):
 
 
 class UpdateOrder(APIView):
-    """ Класс формирования корзины """
+    """ Класс изменения корзины """
     permission_classes = (IsAuthenticated,)
 
     def patch(self, request):
@@ -32,15 +32,15 @@ class UpdateOrder(APIView):
 
 
 class AllOrder(ListAPIView):
-    """Все заказы пользователя"""
+    """Заказы пользователя за исключением оплаченных"""
     permission_classes = (IsAuthenticated,)
     serializer_class = OrderSerializer
 
     def list(self, request, *args, **kwargs):
         if request.user.status in 'ward':
-            queryset = Order.objects.filter(user_ward_id=request.user).exclude(order_status = 'paid_for')
+            queryset = Order.objects.filter(user_ward_id=request.user).exclude(order_status='paid_for')
         if request.user.status in ['philantropist', 'confectioner']:
-            queryset = Order.objects.filter(user_philantropist_id=request.user).exclude(order_status = 'paid_for')
+            queryset = Order.objects.filter(user_philantropist_id=request.user).exclude(order_status='paid_for')
         serializer = OrderSerializer(queryset, many=True)
         return JsonResponse(serializer.data, safe=False)
 
@@ -63,36 +63,35 @@ class ExecuteAnOrder(APIView):
     permission_classes = (IsAuthenticated,)
 
     def post(self, request):
+        print('89080980')
         instance = process.update_order(request)
         instance.save()
-        serializer = OrderSerializer(instance, many=True)
+        serializer = OrderSerializer(instance)
         return JsonResponse(serializer.data, safe=False)
 
 
 class AllOrderConfectionary(ListAPIView):
     """Все заказы для кондитерской"""
     permission_classes = (IsAuthenticated,)
+    serializer_class = OrderSerializer
 
     def list(self, request, *args, **kwargs):
         if request.user.status in 'confectioner':
             queryset = Order.objects.filter(confectionary_id=request.user.confectionary, order_status='paid_for')
             instanse_list = []
             for inf_wishes in queryset:
-                instance = process.inf_order(order=inf_wishes, status=request.user.status)
-                instanse_list.append(instance)
+                serializer = OrderSerializer(inf_wishes)
+                instanse_list.append(serializer.data)
             return JsonResponse(instanse_list, safe=False)
-
+        else:
+            return JsonResponse({
+                "registration": "error",
+                "id": "Нет прав доступа"
+            })
 
 
 class AllDesireWard(ListAPIView):
-    """ Класс предоставляет данные о желании подопечных """
-    permission_classes = (AllowAny,)
-
-    def list(self, request, *args, **kwargs):
-        queryset = Order.objects.filter(order_status="desire_ward")
-        instanse_list = []
-        for inf_wishes in queryset:
-            instance = process.inf_order(order=inf_wishes, status=request.user.status)
-            instanse_list.append(instance)
-
-        return JsonResponse(instanse_list, safe=False)
+    """ Класс предоставляет данные о желании всех подопечных """
+    permission_classes = (IsAuthenticated,)
+    queryset = Order.objects.filter(order_status="desire_ward")
+    serializer_class = OrderSerializer

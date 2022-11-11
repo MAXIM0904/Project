@@ -31,14 +31,14 @@ class AllFeedback(ListAPIView):
 
 
 class ReceivedFeedback(ListAPIView):
-    """Предоставление активных сообщений обратной связи"""
+    """Предоставление архивных сообщений обратной связи"""
     permission_classes = (IsAdminUser,)
     queryset = Feedback.objects.filter(status="received")
     serializer_class = FeedbackUserSerializer
 
 
 class ArchiveFeedback(ListAPIView):
-    """Предоставление архивных сообщений обратной связи"""
+    """Предоставление активных сообщений обратной связи"""
     permission_classes = (IsAdminUser,)
     queryset = Feedback.objects.filter(status="archive")
     serializer_class = FeedbackUserSerializer
